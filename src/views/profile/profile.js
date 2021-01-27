@@ -17,8 +17,9 @@ const Profile = () => {
           />
         </div>
         <div className="col-md text-center text-md-left">
-          <h2>{name}</h2>
-          <p className="lead text-muted">{email}</p>
+          <h2>Name: {name}</h2>
+          <h4>Role: {user[process.env.REACT_APP_ROLE_PATH]}</h4>
+          <p className="lead text-muted">EMAIL: {email}</p>
         </div>
       </div>
       <div className="row">

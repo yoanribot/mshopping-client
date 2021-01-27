@@ -43,12 +43,14 @@ export default function Header() {
           <Typography variant="h6" className={classes.title}>
             News
           </Typography>
-          {!isAuthenticated && <Button
-						color="inherit"
-						onClick={singup}
-					>
-						Signup
-					</Button>}
+          {!isAuthenticated && (
+						<Button
+							color="inherit"
+							onClick={singup}
+						>
+							Signup
+						</Button>
+					)}
 					{!isAuthenticated
 						?(<Button
 							color="inherit"

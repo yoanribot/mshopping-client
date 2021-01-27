@@ -5,28 +5,33 @@ import './App.css';
 import ProtectedRoute from "./auth/protected-route";
 import Home from './views/home';
 import Profile from './views/profile';
-import ExternalApi from './views/external-api';
+import TestApi from './views/test-api';
+import Manage from './views/manage';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Header from './components/header'
+import Header from './components/header';
+import { roles } from './app-constants';
 
 function App() {
   const { isLoading } = useAuth0();
+
+  console.log('isLoading', isLoading);
 
   if (isLoading) {
     return <CircularProgress />;
   }
 
   return (
-    <div id="app" className="d-flex flex-column h-100">
-      <Header />
-      <div className="container flex-grow-1">
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <ProtectedRoute path="/profile" component={Profile} />
-          <Route path="/test" component={ExternalApi} />
-        </Switch>
+      <div id="app" className="d-flex flex-column h-100">
+        <Header />
+        <div className="container flex-grow-1">
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/test" component={TestApi} />
+            <ProtectedRoute path="/profile" component={Profile} />
+            <ProtectedRoute roles={[roles.ADMIN]} path="/manage" component={Manage} />
+          </Switch>
+        </div>
       </div>
-    </div>
   );
 }
 
