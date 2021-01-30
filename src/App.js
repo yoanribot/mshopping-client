@@ -10,11 +10,13 @@ import Manage from './views/manage';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Header from './components/header';
 import { roles } from './app-constants';
+import initHttpInterceptor from './app-http-interceptor';
 
 function App() {
-  const { isLoading } = useAuth0();
+  const { isLoading, getAccessTokenSilently } = useAuth0();
 
-  console.log('isLoading', isLoading);
+  // Add a request interceptor
+  initHttpInterceptor(getAccessTokenSilently);
 
   if (isLoading) {
     return <CircularProgress />;

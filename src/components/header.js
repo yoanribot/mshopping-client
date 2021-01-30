@@ -26,9 +26,14 @@ export default function Header() {
 	const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
 	const login = () => loginWithRedirect();
-	const singup = () => loginWithRedirect({
-		screen_hint: "signup",
-	});
+	const singup = async () => {
+		console.log('singup ....');
+		const res = await loginWithRedirect({
+			screen_hint: "signup",
+		});
+
+		console.log('res', res);
+	}
 	const _logout = () => logout({
 		returnTo: window.location.origin,
 	})

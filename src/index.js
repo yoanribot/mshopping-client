@@ -5,11 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from "react-router-dom";
 import Auth0ProviderWithHistory from "./auth/auth0-provider-with-history";
+import { Provider as UserProvider } from './context/user';
 
 ReactDOM.render(
 	<Router>
 		<Auth0ProviderWithHistory>
-			<App />
+			<UserProvider>
+				<App />
+			</UserProvider>
 		</Auth0ProviderWithHistory>
 	</Router>,
  	document.getElementById('root')
