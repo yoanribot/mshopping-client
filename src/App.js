@@ -6,6 +6,7 @@ import ProtectedRoute from "./auth/protected-route";
 import Home from './views/home';
 import Profile from './views/profile';
 import TestApi from './views/test-api';
+import Post from './views/posts';
 import Manage from './views/manage';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Header from './components/header';
@@ -29,6 +30,7 @@ function App() {
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/test" component={TestApi} />
+            <Route path="/post" component={Post} />
             <ProtectedRoute path="/profile" component={Profile} />
             <ProtectedRoute roles={[roles.ADMIN]} path="/manage" component={Manage} />
           </Switch>
