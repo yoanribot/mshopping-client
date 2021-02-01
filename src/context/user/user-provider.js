@@ -1,5 +1,6 @@
 import React, { memo, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useAuth0 } from "@auth0/auth0-react";
 import { Provider } from './user-context';
 import {
     getUserByAuth0Id as _getUserByAuth0Id,
@@ -9,17 +10,30 @@ import UserModel from '../models/user';
 
 const UserProvider = memo(({ children }) => {
     const [currentUser, setCurrentUser] = useState(new UserModel({
-        name: 'Yoan',
-        lastname: 'Ribot',
-        description: 'some blablabla...',
-        age: 32,
+        name: '',
+        lastname: '',
+        description: '',
+        age: 0,
     }));
+
+    const { user, isAuthenticated } = useAuth0();
+
+    useEffect(() => {
+        if (isAuthenticated && !!user) {
+            const { sub: auth0UserID } = user;
+
+            getUserByAuth0Id(auth0UserID);
+        }
+    }, [isAuthenticated, user]);
 
     const getUserByAuth0Id = async userAuthId => {
         try {
             const data = await _getUserByAuth0Id(userAuthId);
 
-            setCurrentUser(new UserModel(data));
+            if (data) {
+                setCurrentUser(new UserModel(data));
+            }
+
         } catch(err) {
             throw err;
         }

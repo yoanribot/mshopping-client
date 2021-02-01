@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useMemo } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect, useRouteMatch } from "react-router-dom";
 
@@ -7,11 +7,7 @@ import PostForm from './post-form';
 import Post from './post';
 
 const Posts = memo(({ }) => {
-    const [state, setstate] = useState();
     let match = useRouteMatch();
-
-    useEffect(() => {
-    }, []);
 
     return (
         <Switch>

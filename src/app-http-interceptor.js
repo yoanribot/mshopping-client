@@ -9,7 +9,6 @@ async function initHttpInterceptor(getToken) {
 
         return config;
     });
-    axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 }
 
 export default initHttpInterceptor;

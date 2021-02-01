@@ -1,40 +1,52 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import './App.css';
+import { makeStyles } from '@material-ui/core/styles';
 import ProtectedRoute from "./auth/protected-route";
 import Home from './views/home';
+import'./App.css'
 import Profile from './views/profile';
 import TestApi from './views/test-api';
 import Post from './views/posts';
 import Manage from './views/manage';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Container from '@material-ui/core/Container';
 import Header from './components/header';
 import { roles } from './app-constants';
 import initHttpInterceptor from './app-http-interceptor';
 
-function App() {
-  const { isLoading, getAccessTokenSilently } = useAuth0();
+const useStyles = makeStyles((theme) => ({
+  container: {
+    padding: 60,
+  },
+}));
 
-  // Add a request interceptor
-  initHttpInterceptor(getAccessTokenSilently);
+function App() {
+  const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const classes = useStyles();
+
+  useEffect(() => {
+    // Add a request interceptor
+    isAuthenticated && initHttpInterceptor(getAccessTokenSilently);
+  }, [isAuthenticated]);
 
   if (isLoading) {
     return <CircularProgress />;
   }
 
   return (
-      <div id="app" className="d-flex flex-column h-100">
+      <div id="app" className={classes.body}>
         <Header />
-        <div className="container flex-grow-1">
+        <Container className={classes.container}>
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/test" component={TestApi} />
-            <Route path="/post" component={Post} />
+            <Route path="/posts" component={Post} />
             <ProtectedRoute path="/profile" component={Profile} />
             <ProtectedRoute roles={[roles.ADMIN]} path="/manage" component={Manage} />
+            {/* <Redirect to='/' /> */}
           </Switch>
-        </div>
+        </Container>
       </div>
   );
 }

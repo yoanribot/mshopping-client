@@ -27,12 +27,9 @@ export default function Header() {
 
 	const login = () => loginWithRedirect();
 	const singup = async () => {
-		console.log('singup ....');
 		const res = await loginWithRedirect({
 			screen_hint: "signup",
 		});
-
-		console.log('res', res);
 	}
 	const _logout = () => logout({
 		returnTo: window.location.origin,

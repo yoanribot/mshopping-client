@@ -3,15 +3,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Context as userContext } from '../../context/user';
 
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: 60,
-  },
   input: {
     marginBottom: 20,
   },
@@ -25,16 +21,18 @@ const Profile = () => {
   const { picture, email, sub: auth0UserID } = user;
   const classes = useStyles();
 
-  const { currentUser, getUserByAuth0Id, createUser } = useContext(userContext);
-  console.log('currentUser', currentUser);
+  const { currentUser, createUser } = useContext(userContext);
   const [name, setName] = useState(currentUser.name);
   const [lastname, setLastname] = useState(currentUser.lastname);
-  const [description, setDescription] = useState(currentUser.lastname);
+  const [description, setDescription] = useState(currentUser.description);
   const [age, setAge] = useState(currentUser.age);
 
   useEffect(() => {
-    // getUserByAuth0Id(auth0UserID);
-  }, [auth0UserID]);
+    setName(currentUser.name);
+    setLastname(currentUser.lastname);
+    setDescription(currentUser.description);
+    setAge(currentUser.age);
+  }, [currentUser])
 
 
   const onChange = cb => event => cb(event.target.value);
@@ -47,7 +45,7 @@ const Profile = () => {
   });
 
   return (
-    <Container className={classes.container}>
+    <>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={3}>
           <img
@@ -93,12 +91,12 @@ const Profile = () => {
         </Grid>
       </Grid>
       <div className="row">
-        <h4>FULL USER OBJECT</h4>
+        <h4>FULL USER OBJECT FROM AUTH0</h4>
         <pre className="col-12 text-light bg-dark p-4">
           {JSON.stringify(user, null, 2)}
         </pre>
       </div>
-    </Container>
+    </>
   );
 };
 

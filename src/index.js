@@ -6,12 +6,18 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from "react-router-dom";
 import Auth0ProviderWithHistory from "./auth/auth0-provider-with-history";
 import { Provider as UserProvider } from './context/user';
+import { Provider as PostProvider } from './context/post';
+import axios from 'axios';
+
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 
 ReactDOM.render(
 	<Router>
 		<Auth0ProviderWithHistory>
 			<UserProvider>
-				<App />
+				<PostProvider>
+					<App />
+				</PostProvider>
 			</UserProvider>
 		</Auth0ProviderWithHistory>
 	</Router>,

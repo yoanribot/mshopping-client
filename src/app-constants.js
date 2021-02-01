@@ -3,7 +3,3 @@ export const roles = {
     ADMIN: 'admin',
     VISITOR: 'visitor',
 };
-
-export default {
-
-};
