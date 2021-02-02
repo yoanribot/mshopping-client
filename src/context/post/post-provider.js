@@ -5,6 +5,8 @@ import {
     getPosts as _getPosts,
     createPost as _createPost,
     getPost as _getPost,
+    upVote as _upVote,
+    decVote as _decVote,
 } from './post-resource';
 import PostModel from '../models/post';
 
@@ -48,6 +50,23 @@ const PostProvider = memo(({ children }) => {
         }
     }
 
+    const upVote = async postId => {
+        try {
+            const data = await _upVote(postId);
+        } catch(err) {
+            throw err;
+        }
+    };
+
+    const decVote = async postId => {
+        try {
+            const data = await _decVote(postId);
+        } catch(err) {
+            throw err;
+        }
+    };
+
+
     return (
         <Provider
             value={{
@@ -56,8 +75,8 @@ const PostProvider = memo(({ children }) => {
                 getPosts,
                 getPost,
                 createPost,
-                // updateUser,
-                // removeUser,
+                upVote,
+                decVote,
             }}
         >
             {children}

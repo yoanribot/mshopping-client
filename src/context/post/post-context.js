@@ -7,6 +7,8 @@ export const Context =  createContext({
     createPost: () => {},
     updatePost: () => {},
     removePost: () => {},
+    upVote: () => {},
+    decVote: () => {},
 });
 
 export const Consumer = Context.Consumer;

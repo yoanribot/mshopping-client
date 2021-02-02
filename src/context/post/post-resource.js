@@ -9,3 +9,9 @@ export const getPost = postId => axios.get(`/posts/${postId}`)
 
 export const createPost = post => axios.post(`/posts`, { post })
     .then(respose => respose.data);
+
+export const upVote = postId => axios.put(`/posts/${postId}/votes/inc`)
+    .then(respose => respose.data);
+
+export const decVote = postId => axios.put(`/posts/${postId}/votes/dec`)
+    .then(respose => respose.data);

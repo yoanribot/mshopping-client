@@ -1,52 +1,101 @@
 import React, { memo, useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import { useParams } from "react-router-dom";
 import { Context as PostContext } from '../../context/post';
+import moment from 'moment';
 
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 const useStyles = makeStyles((theme) => ({
-    input: {
-      marginBottom: 20,
+    root: {
+        padding: 20,
     },
-    save: {
-      float: 'right',
-    }
-  }));
-
+    header: {
+        display: 'flex',
+    },
+    title: {
+        flexGrow: 1,
+        fontStyle: 'italic',
+    },
+    flex: {
+        display: 'flex',
+    },
+    btn: {
+        cursor: 'pointer',
+        fontSize: 30,
+    },
+    votesWrapper: {
+        display: 'flex',
+        marginLeft: 40,
+    },
+    votes: {
+        fontSize: 44,
+        alignSelf: 'center',
+        margin: 0,
+    },
+    btnVotes: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignSelf: 'center',
+    },
+    date: {
+        margin: 'auto',
+    },
+    sign: {
+        fontSize: '19px',
+        fontStyle: 'italic',
+    },
+}));
 
 const Post = memo(({ }) => {
-    const classes = useStyles();
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+    const [post, setPost] = useState({ author: {} });
     const [votes, setVotes] = useState(0);
-    const { createPost } = useContext(PostContext);
+    const { getPost, upVote, decVote } = useContext(PostContext);
+    let { id } = useParams();
+    const classes = useStyles();
 
-    useEffect(() => {
+    useEffect(async () => {
+        const currentPost = await getPost(id);
+
+        setPost(currentPost);
+        setVotes(currentPost.votes);
     }, []);
 
-    const onChange = cb => event => cb(event.target.value);
-    const onSave = () => createPost({
-        title,
-        content,
-        votes,
-    });
+    const _upVote = () => {
+        upVote(id);
+        setVotes(votes + 1);
+    };
+    const _decVote = () => {
+        decVote(id);
+        setVotes(votes - 1);
+    }
 
     return (
-        <form>
-            <div className={classes.input}>
-                <TextField name="title" fullWidth label="Title" variant="outlined" value={title} onChange={onChange(setTitle)} />
+        <Paper className={classes.root}>
+            <div className={classes.header}>
+                <h2 className={classes.title}>{post.title}</h2>
+                <div className={classes.flex}>
+                    <span className={classes.date}>{moment(post.date).format("DD-MM-YYYY")}</span>
+                    <div className={classes.votesWrapper}>
+                        <h3 className={classes.votes}>{votes}</h3>
+                        <div className={classes.btnVotes}>
+                            <IconButton onClick={_upVote} >
+                                <KeyboardArrowUpIcon className={classes.btn} />
+                            </IconButton>
+                            <IconButton onClick={_decVote} >
+                                <KeyboardArrowDownIcon className={classes.btn} />
+                            </IconButton>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className={classes.input}>
-                <TextField name="content" fullWidth multiline rows={4} label="Content" variant="outlined" value={content} onChange={onChange(setContent)} />
-            </div>
-            <div className={classes.input}>
-                <Button variant="contained" color="primary" className={classes.save} onClick={onSave}>
-                    Save
-                </Button>
-            </div>
-        </form>
+            <p>{post.content}</p>
+            <p className={classes.sign}>{`By: ${post.author.name} ${post.author.lastname}`}</p>
+        </Paper>
     );
 });
 

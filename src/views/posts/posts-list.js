@@ -2,6 +2,7 @@ import React, { memo, useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Context as PostContext } from '../../context/post';
 import { useHistory, useRouteMatch } from "react-router-dom";
+import moment from 'moment';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -19,6 +20,8 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles1 = makeStyles((theme) => ({
     root: {
@@ -93,6 +96,13 @@ function TablePaginationActions(props) {
       float: 'right',
       margin: 20,
     },
+    rowBtnWrapper: {
+      alignItems: 'center',
+      cursor: 'pointer',
+    },
+    rowBtn: {
+      fontSize: 20,
+    },
   });
 
 const PostsList = memo(({ }) => {
@@ -109,8 +119,11 @@ const PostsList = memo(({ }) => {
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, posts.length - page * rowsPerPage);
 
-    const goToNewPostForm = () => {
-      history.push(`${match.url}/new`)
+
+    const goToNewPostForm = () => history.push(`${match.url}/new`);
+    const goToPost = postId => {
+      console.log('postId', postId);
+      history.push(`${match.url}/${postId}`);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -121,6 +134,11 @@ const PostsList = memo(({ }) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
+    const onView = postId => goToPost(postId);
+    const onDelete = () => {};
+
+    console.log('posts', posts);
 
     return (
         <TableContainer component={Paper}>
@@ -146,10 +164,16 @@ const PostsList = memo(({ }) => {
                           {row.content}
                       </TableCell>
                       <TableCell style={{ width: 160 }} align="right">
-                          {row.author}
+                          {`${row.author.name} ${row.author.lastname}`}
                       </TableCell>
                       <TableCell style={{ width: 160 }} align="right">
-                          {row.date}
+                          {moment(row.date).format("DD-MM-YYYY")}
+                      </TableCell>
+                      <TableCell style={{ width: 20 }} className={classes.rowBtnWrapper}>
+                          <VisibilityIcon onClick={() => onView(row.id)} className={classes.rowBtn} />
+                      </TableCell>
+                      <TableCell style={{ width: 20 }} className={classes.rowBtnWrapper}>
+                          <DeleteIcon onClick={onDelete} className={classes.rowBtn} />
                       </TableCell>
                     </TableRow>
                 ))}
