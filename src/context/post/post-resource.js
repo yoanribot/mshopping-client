@@ -15,3 +15,9 @@ export const upVote = postId => axios.put(`/posts/${postId}/votes/inc`)
 
 export const decVote = postId => axios.put(`/posts/${postId}/votes/dec`)
     .then(respose => respose.data);
+
+export const addReview = (postId, userId, text) => axios.post(`/posts/${postId}/reviews`, {
+        postId,
+        userId,
+        text,
+    }).then(respose => respose.data);

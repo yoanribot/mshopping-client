@@ -1,12 +1,14 @@
 import React, { memo, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from './post-context';
+
 import {
     getPosts as _getPosts,
     createPost as _createPost,
     getPost as _getPost,
     upVote as _upVote,
     decVote as _decVote,
+    addReview as _addReview,
 } from './post-resource';
 import PostModel from '../models/post';
 
@@ -52,7 +54,7 @@ const PostProvider = memo(({ children }) => {
 
     const upVote = async postId => {
         try {
-            const data = await _upVote(postId);
+            await _upVote(postId);
         } catch(err) {
             throw err;
         }
@@ -60,12 +62,23 @@ const PostProvider = memo(({ children }) => {
 
     const decVote = async postId => {
         try {
-            const data = await _decVote(postId);
+            await _decVote(postId);
         } catch(err) {
             throw err;
         }
     };
 
+    const addReview = async (postId, userId, text) => {
+        try {
+            const data = await _addReview(postId, userId, text);
+
+            console.log('data', data);
+
+            return data;
+        } catch(err) {
+            throw err;
+        }
+    };
 
     return (
         <Provider
@@ -77,6 +90,7 @@ const PostProvider = memo(({ children }) => {
                 createPost,
                 upVote,
                 decVote,
+                addReview,
             }}
         >
             {children}

@@ -7,6 +7,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Auth0ProviderWithHistory from "./auth/auth0-provider-with-history";
 import { Provider as UserProvider } from './context/user';
 import { Provider as PostProvider } from './context/post';
+import { SnackbarProvider } from 'notistack';
 import axios from 'axios';
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
@@ -14,11 +15,13 @@ axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 ReactDOM.render(
 	<Router>
 		<Auth0ProviderWithHistory>
-			<UserProvider>
-				<PostProvider>
-					<App />
-				</PostProvider>
-			</UserProvider>
+			<SnackbarProvider maxSnack={3}>
+				<UserProvider>
+					<PostProvider>
+						<App />
+					</PostProvider>
+				</UserProvider>
+			</SnackbarProvider>
 		</Auth0ProviderWithHistory>
 	</Router>,
  	document.getElementById('root')

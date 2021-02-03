@@ -121,10 +121,7 @@ const PostsList = memo(({ }) => {
 
 
     const goToNewPostForm = () => history.push(`${match.url}/new`);
-    const goToPost = postId => {
-      console.log('postId', postId);
-      history.push(`${match.url}/${postId}`);
-    }
+    const goToPost = postId => history.push(`${match.url}/${postId}`);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -137,8 +134,6 @@ const PostsList = memo(({ }) => {
 
     const onView = postId => goToPost(postId);
     const onDelete = () => {};
-
-    console.log('posts', posts);
 
     return (
         <TableContainer component={Paper}>

@@ -2,6 +2,7 @@ import React, { memo, useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from "react-router-dom";
 import { Context as PostContext } from '../../context/post';
+import { Context as UserContext } from '../../context/user';
 import moment from 'moment';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +10,8 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import ReviewList from '../../components/review';
+import { useSnackbar  } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,15 +57,19 @@ const useStyles = makeStyles((theme) => ({
 const Post = memo(({ }) => {
     const [post, setPost] = useState({ author: {} });
     const [votes, setVotes] = useState(0);
-    const { getPost, upVote, decVote } = useContext(PostContext);
+    const { getPost, upVote, decVote, addReview } = useContext(PostContext);
+    const { currentUser } = useContext(UserContext);
+    const { enqueueSnackbar } = useSnackbar();
     let { id } = useParams();
     const classes = useStyles();
 
-    useEffect(async () => {
-        const currentPost = await getPost(id);
+    useEffect(() => {
+        (async () => {
+            const currentPost = await getPost(id);
 
-        setPost(currentPost);
-        setVotes(currentPost.votes);
+            setPost(currentPost);
+            setVotes(currentPost.votes);
+        })();
     }, []);
 
     const _upVote = () => {
@@ -73,6 +80,15 @@ const Post = memo(({ }) => {
         decVote(id);
         setVotes(votes - 1);
     }
+
+    const _addReview = async text => {
+        const data = await addReview(post.id, currentUser.id, text);
+
+        console.log('data', data);
+        enqueueSnackbar(data.message);
+    }
+
+    console.log('post', post);
 
     return (
         <Paper className={classes.root}>
@@ -95,6 +111,8 @@ const Post = memo(({ }) => {
             </div>
             <p>{post.content}</p>
             <p className={classes.sign}>{`By: ${post.author.name} ${post.author.lastname}`}</p>
+
+            <ReviewList addReview={_addReview} reviews={post.reviews} />
         </Paper>
     );
 });
