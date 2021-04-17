@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useMemo } from 'react';
+import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
@@ -6,9 +6,8 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import getGlobalStyles from '../global-styles';
+import getGlobalStyles from '../../common/styles/base';
 
 const ReviewForm = memo(({ isOpen, onClose, onSave }) => {
     const [text, setText] = useState();
@@ -46,7 +45,9 @@ const ReviewForm = memo(({ isOpen, onClose, onSave }) => {
 });
 
 ReviewForm.propTypes = {
-
+    isOpen: PropTypes.bool,
+    onClose: PropTypes.func,
+    onSave: PropTypes.func,
 };
 
 ReviewForm.defaultProps = {

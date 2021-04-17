@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 const Post = memo(({ }) => {
     const [post, setPost] = useState({ author: {} });
     const [votes, setVotes] = useState(0);
-    const { getPost, upVote, decVote, addReview } = useContext(PostContext);
+    const { getPost, upVote, decVote, addReview, removeReview } = useContext(PostContext);
     const { currentUser } = useContext(UserContext);
     const { enqueueSnackbar } = useSnackbar();
     let { id } = useParams();
@@ -81,14 +81,19 @@ const Post = memo(({ }) => {
         setVotes(votes - 1);
     }
 
-    const _addReview = async text => {
+    const onAddReview = async text => {
         const data = await addReview(post.id, currentUser.id, text);
 
         console.log('data', data);
         enqueueSnackbar(data.message);
     }
 
-    console.log('post', post);
+    const onRemoveReview = async reviewId => {
+        const data = await removeReview(post.id, reviewId);
+
+        console.log('data', data);
+        enqueueSnackbar(data.message);
+    }
 
     return (
         <Paper className={classes.root}>
@@ -112,7 +117,7 @@ const Post = memo(({ }) => {
             <p>{post.content}</p>
             <p className={classes.sign}>{`By: ${post.author.name} ${post.author.lastname}`}</p>
 
-            <ReviewList addReview={_addReview} reviews={post.reviews} />
+            <ReviewList addReview={onAddReview} onRemoveReview={onRemoveReview} reviews={post.reviews} />
         </Paper>
     );
 });

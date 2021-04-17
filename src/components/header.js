@@ -27,7 +27,7 @@ export default function Header() {
 
 	const login = () => loginWithRedirect();
 	const singup = async () => {
-		const res = await loginWithRedirect({
+		await loginWithRedirect({
 			screen_hint: "signup",
 		});
 	}

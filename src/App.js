@@ -12,6 +12,7 @@ import Manage from './views/manage';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Header from './components/header';
+import NavigationBar from './components/navigation-bar';
 import { roles } from './app-constants';
 import initHttpInterceptor from './app-http-interceptor';
 
@@ -21,6 +22,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const appTabs = [
+  {
+    label: 'Home',
+    url: '/',
+  },
+  {
+    label: 'Test',
+    url: '/test',
+  },
+  {
+    label: 'Posts',
+    url: '/posts',
+  },
+];
+
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const classes = useStyles();
@@ -28,7 +44,7 @@ function App() {
   useEffect(() => {
     // Add a request interceptor
     isAuthenticated && initHttpInterceptor(getAccessTokenSilently);
-  }, [isAuthenticated]);
+  }, [isAuthenticated, getAccessTokenSilently]);
 
   if (isLoading) {
     return <CircularProgress />;
@@ -37,6 +53,8 @@ function App() {
   return (
       <div id="app" className={classes.body}>
         <Header />
+        <NavigationBar tabs={appTabs} />
+
         <Container className={classes.container}>
           <Switch>
             <Route path="/" exact component={Home} />
@@ -44,7 +62,7 @@ function App() {
             <Route path="/posts" component={Post} />
             <ProtectedRoute path="/profile" component={Profile} />
             <ProtectedRoute roles={[roles.ADMIN]} path="/manage" component={Manage} />
-            {/* <Redirect to='/' /> */}
+            <Redirect to='/' />
           </Switch>
         </Container>
       </div>

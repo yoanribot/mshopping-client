@@ -10,6 +10,7 @@ export const Context =  createContext({
     upVote: () => {},
     decVote: () => {},
     addReview: () => {},
+    removeReview: () => {},
 });
 
 export const Consumer = Context.Consumer;

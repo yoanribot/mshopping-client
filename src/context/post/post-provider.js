@@ -1,31 +1,26 @@
-import React, { memo, useState, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { memo, useState } from 'react';
 import { Provider } from './post-context';
 
 import {
     getPosts as _getPosts,
     createPost as _createPost,
+    removePost as _removePost,
     getPost as _getPost,
     upVote as _upVote,
     decVote as _decVote,
     addReview as _addReview,
+    removeReview as _removeReview,
 } from './post-resource';
 import PostModel from '../models/post';
 
 const PostProvider = memo(({ children }) => {
-    const [currentPost, setCurrentPost] = useState(new PostModel({
-        title: 'Title',
-        content: 'Once upon a time ...',
-        author: 'Yoan RR',
-        votes: 1,
-        age: Date.now(),
-    }));
+    const [currentPost, setCurrentPost] = useState();
     const [posts, setPosts] = useState([]);
 
     const getPost = async postId => {
         try {
             const data = await _getPost(postId);
-
+            setCurrentPost(data);
             return new PostModel(data);
         } catch(err) {
             throw err;
@@ -47,6 +42,16 @@ const PostProvider = memo(({ children }) => {
             const data = await _createPost(user);
 
             setPosts([...posts, new PostModel(data)]);
+        } catch(err) {
+            throw err;
+        }
+    }
+
+    const removePost = async postId => {
+        try {
+            await _removePost(postId);
+
+            setPosts(posts.filter(post => postId === post.id));
         } catch(err) {
             throw err;
         }
@@ -80,6 +85,18 @@ const PostProvider = memo(({ children }) => {
         }
     };
 
+    const removeReview = async (postId, reviewId) => {
+        try {
+            const data = await _removeReview(postId, reviewId);
+
+            console.log('data', data);
+
+            return data;
+        } catch(err) {
+            throw err;
+        }
+    };
+
     return (
         <Provider
             value={{
@@ -88,9 +105,11 @@ const PostProvider = memo(({ children }) => {
                 getPosts,
                 getPost,
                 createPost,
+                removePost,
                 upVote,
                 decVote,
                 addReview,
+                removeReview,
             }}
         >
             {children}

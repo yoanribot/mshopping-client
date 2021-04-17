@@ -109,7 +109,7 @@ const PostsList = memo(({ }) => {
     const classes = useStyles2();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const { posts, getPosts } = useContext(PostContext);
+    const { posts, getPosts, removePost } = useContext(PostContext);
     const history = useHistory();
     let match = useRouteMatch();
 
@@ -133,7 +133,7 @@ const PostsList = memo(({ }) => {
     };
 
     const onView = postId => goToPost(postId);
-    const onDelete = () => {};
+    const onDelete = postId => removePost(postId);
 
     return (
         <TableContainer component={Paper}>
@@ -168,7 +168,7 @@ const PostsList = memo(({ }) => {
                           <VisibilityIcon onClick={() => onView(row.id)} className={classes.rowBtn} />
                       </TableCell>
                       <TableCell style={{ width: 20 }} className={classes.rowBtnWrapper}>
-                          <DeleteIcon onClick={onDelete} className={classes.rowBtn} />
+                          <DeleteIcon onClick={() => onDelete(row.id)} className={classes.rowBtn} />
                       </TableCell>
                     </TableRow>
                 ))}
