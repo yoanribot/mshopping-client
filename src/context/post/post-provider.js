@@ -14,10 +14,11 @@ import {
 import PostModel from '../models/post';
 
 const PostProvider = memo(({ children }) => {
-    const [currentPost, setCurrentPost] = useState();
+    const [currentPost, setCurrentPost] = useState({ author: {} });
     const [posts, setPosts] = useState([]);
 
     const getPost = async postId => {
+        console.log('getPost ....');
         try {
             const data = await _getPost(postId);
             setCurrentPost(data);
@@ -76,6 +77,7 @@ const PostProvider = memo(({ children }) => {
     const addReview = async (postId, userId, text) => {
         try {
             const data = await _addReview(postId, userId, text);
+            await getPost(postId);
 
             console.log('data', data);
 
@@ -88,6 +90,7 @@ const PostProvider = memo(({ children }) => {
     const removeReview = async (postId, reviewId) => {
         try {
             const data = await _removeReview(postId, reviewId);
+            await getPost(postId);
 
             console.log('data', data);
 

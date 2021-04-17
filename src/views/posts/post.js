@@ -55,21 +55,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Post = memo(({ }) => {
-    const [post, setPost] = useState({ author: {} });
     const [votes, setVotes] = useState(0);
-    const { getPost, upVote, decVote, addReview, removeReview } = useContext(PostContext);
+    const { currentPost, getPost, upVote, decVote, addReview, removeReview } = useContext(PostContext);
     const { currentUser } = useContext(UserContext);
     const { enqueueSnackbar } = useSnackbar();
     let { id } = useParams();
     const classes = useStyles();
 
     useEffect(() => {
-        (async () => {
-            const currentPost = await getPost(id);
-
-            setPost(currentPost);
-            setVotes(currentPost.votes);
-        })();
+        getPost(id);
     }, []);
 
     const _upVote = () => {
@@ -82,14 +76,14 @@ const Post = memo(({ }) => {
     }
 
     const onAddReview = async text => {
-        const data = await addReview(post.id, currentUser.id, text);
+        const data = await addReview(currentPost._id, currentUser.id, text);
 
         console.log('data', data);
         enqueueSnackbar(data.message);
     }
 
     const onRemoveReview = async reviewId => {
-        const data = await removeReview(post.id, reviewId);
+        const data = await removeReview(currentPost._id, reviewId);
 
         console.log('data', data);
         enqueueSnackbar(data.message);
@@ -98,9 +92,9 @@ const Post = memo(({ }) => {
     return (
         <Paper className={classes.root}>
             <div className={classes.header}>
-                <h2 className={classes.title}>{post.title}</h2>
+                <h2 className={classes.title}>{currentPost.title}</h2>
                 <div className={classes.flex}>
-                    <span className={classes.date}>{moment(post.date).format("DD-MM-YYYY")}</span>
+                    <span className={classes.date}>{moment(currentPost.date).format("DD-MM-YYYY")}</span>
                     <div className={classes.votesWrapper}>
                         <h3 className={classes.votes}>{votes}</h3>
                         <div className={classes.btnVotes}>
@@ -114,10 +108,10 @@ const Post = memo(({ }) => {
                     </div>
                 </div>
             </div>
-            <p>{post.content}</p>
-            <p className={classes.sign}>{`By: ${post.author.name} ${post.author.lastname}`}</p>
+            <p>{currentPost.content}</p>
+            <p className={classes.sign}>{`By: ${currentPost.author.name} ${currentPost.author.lastname}`}</p>
 
-            <ReviewList addReview={onAddReview} onRemoveReview={onRemoveReview} reviews={post.reviews} />
+            <ReviewList addReview={onAddReview} onRemoveReview={onRemoveReview} reviews={currentPost.reviews} />
         </Paper>
     );
 });
