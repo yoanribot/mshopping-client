@@ -51,8 +51,7 @@ const PostProvider = memo(({ children }) => {
     const removePost = async postId => {
         try {
             await _removePost(postId);
-
-            setPosts(posts.filter(post => postId === post.id));
+            await getPosts();
         } catch(err) {
             throw err;
         }
@@ -61,6 +60,7 @@ const PostProvider = memo(({ children }) => {
     const upVote = async postId => {
         try {
             await _upVote(postId);
+            await getPost(postId);
         } catch(err) {
             throw err;
         }
@@ -69,6 +69,7 @@ const PostProvider = memo(({ children }) => {
     const decVote = async postId => {
         try {
             await _decVote(postId);
+            await getPost(postId);
         } catch(err) {
             throw err;
         }

@@ -55,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Post = memo(({ }) => {
-    const [votes, setVotes] = useState(0);
     const { currentPost, getPost, upVote, decVote, addReview, removeReview } = useContext(PostContext);
     const { currentUser } = useContext(UserContext);
     const { enqueueSnackbar } = useSnackbar();
@@ -68,11 +67,9 @@ const Post = memo(({ }) => {
 
     const _upVote = () => {
         upVote(id);
-        setVotes(votes + 1);
     };
     const _decVote = () => {
         decVote(id);
-        setVotes(votes - 1);
     }
 
     const onAddReview = async text => {
@@ -96,7 +93,7 @@ const Post = memo(({ }) => {
                 <div className={classes.flex}>
                     <span className={classes.date}>{moment(currentPost.date).format("DD-MM-YYYY")}</span>
                     <div className={classes.votesWrapper}>
-                        <h3 className={classes.votes}>{votes}</h3>
+                        <h3 className={classes.votes}>{currentPost.votes}</h3>
                         <div className={classes.btnVotes}>
                             <IconButton onClick={_upVote} >
                                 <KeyboardArrowUpIcon className={classes.btn} />

@@ -1,5 +1,6 @@
-import React, { memo, useState, useEffect, useContext } from 'react';
+import React, { memo, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory, useLocation } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import { Context as PostContext } from '../../context/post';
 import { Context as UserContext } from '../../context/user';
@@ -18,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Post = memo(({ }) => {
+    const { pathname } = useLocation();
+    const history = useHistory();
+
     const classes = useStyles();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -25,16 +29,16 @@ const Post = memo(({ }) => {
     const { createPost } = useContext(PostContext);
     const { currentUser } = useContext(UserContext);
 
-    useEffect(() => {
-    }, []);
-
     const onChange = cb => event => cb(event.target.value);
-    const onSave = () => createPost({
-        author: currentUser.id,
-        title,
-        content,
-        votes,
-    });
+    const onSave = () => {
+        createPost({
+            author: currentUser.id,
+            title,
+            content,
+            votes,
+        });
+        history.push(pathname.split('/').slice(0, -1).join('/'))
+    }
 
     return (
         <form>
