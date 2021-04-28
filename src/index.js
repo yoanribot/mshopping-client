@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from "react-router-dom";
 import Auth0ProviderWithHistory from "./auth/auth0-provider-with-history";
+import { ThemeProvider } from '@material-ui/core/styles';
+import globalTheme from './theme';
 import { Provider as UserProvider } from './context/user';
 import { Provider as PostProvider } from './context/post';
 import { SnackbarProvider } from 'notistack';
@@ -18,7 +20,9 @@ ReactDOM.render(
 			<SnackbarProvider maxSnack={3}>
 				<UserProvider>
 					<PostProvider>
-						<App />
+						<ThemeProvider theme={globalTheme}>
+							<App />
+						</ThemeProvider>
 					</PostProvider>
 				</UserProvider>
 			</SnackbarProvider>

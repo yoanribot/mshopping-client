@@ -14,12 +14,13 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
-import Button from '@material-ui/core/Button';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import Tooltip from '@material-ui/core/Tooltip';
+import Fab from '@material-ui/core/Fab';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import AddIcon from '@material-ui/icons/Add';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -137,14 +138,11 @@ const PostsList = memo(({ }) => {
 
     return (
         <TableContainer component={Paper}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={goToNewPostForm}
-            >
-              <AddIcon /> Create Post
-            </Button>
+            <Tooltip title="Create Post" aria-label="add">
+              <Fab color="primary" className={classes.button} onClick={goToNewPostForm}>
+                <AddIcon />
+              </Fab>
+            </Tooltip>
             <Table className={classes.table} aria-label="custom pagination table">
                 <TableBody>
                 {(rowsPerPage > 0
