@@ -18,7 +18,6 @@ const PostProvider = memo(({ children }) => {
     const [posts, setPosts] = useState([]);
 
     const getPost = async postId => {
-        console.log('getPost ....');
         try {
             const data = await _getPost(postId);
             setCurrentPost(data);
@@ -80,8 +79,6 @@ const PostProvider = memo(({ children }) => {
             const data = await _addReview(postId, userId, text);
             await getPost(postId);
 
-            console.log('data', data);
-
             return data;
         } catch(err) {
             throw err;
@@ -92,8 +89,6 @@ const PostProvider = memo(({ children }) => {
         try {
             const data = await _removeReview(postId, reviewId);
             await getPost(postId);
-
-            console.log('data', data);
 
             return data;
         } catch(err) {

@@ -1,6 +1,8 @@
 TODO
-- Add swagger
 - Navigation menu for all the pages
 - Add formik or react-hooks-form for the forms ..
 - Add Jest for test
 - Remove on cascade ex: Remove Post (user.remove post from his posts / remove current post / remove reviews associated to the post)
+- Send email for suppport
+- Add roles
+- pasarela de pago (stripe)

@@ -17,6 +17,13 @@ const globalTheme = createMuiTheme({
         width: 35,
         height: 35,
       }
+    },
+    MuiBottomNavigationAction: {
+      label: {
+        '&.Mui-selected': {
+          fontSize: '1.5rem',
+        }
+      }
     }
   }
 });

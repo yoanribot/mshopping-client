@@ -40,8 +40,6 @@ const ReviewList = memo(({ reviews, addReview, onRemoveReview }) => {
         hideReviewForm();
     }
 
-    console.log('reviews', reviews);
-
     return (
         <section className={classes.section}>
             <div className={globalStyles.flex}>

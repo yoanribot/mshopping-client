@@ -4,8 +4,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Context as userContext } from '../../context/user';
 
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import ReviewSimpleList from '../../components/review/review-simple-list';
+import PostsSimpleList from '../posts/posts-simple-list';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -13,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
   },
   save: {
     float: 'right',
+  },
+  divider: {
+    margin: '20px 0',
   }
 }));
 
@@ -43,6 +50,9 @@ const Profile = () => {
     description,
     age,
   });
+
+  const onRemoveReview = () => {};
+
 
   return (
     <>
@@ -91,10 +101,16 @@ const Profile = () => {
         </Grid>
       </Grid>
       <div className="row">
-        <h4>FULL USER OBJECT FROM AUTH0</h4>
-        <pre className="col-12 text-light bg-dark p-4">
-          {JSON.stringify(user, null, 2)}
-        </pre>
+        <h4>Activity / History</h4>
+        <Typography variant="h6" className={classes.title}>
+          Posts
+        </Typography>
+        <PostsSimpleList posts={currentUser.posts} onRemove={onRemoveReview} />
+        <Divider className={classes.divider}/>
+        <Typography variant="h6" className={classes.title}>
+          Reviews
+        </Typography>
+        <ReviewSimpleList reviews={currentUser.reviews} />
       </div>
     </>
   );

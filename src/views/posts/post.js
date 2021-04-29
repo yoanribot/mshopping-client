@@ -75,14 +75,12 @@ const Post = memo(({ }) => {
     const onAddReview = async text => {
         const data = await addReview(currentPost._id, currentUser.id, text);
 
-        console.log('data', data);
         enqueueSnackbar(data.message);
     }
 
     const onRemoveReview = async reviewId => {
         const data = await removeReview(currentPost._id, reviewId);
 
-        console.log('data', data);
         enqueueSnackbar(data.message);
     }
 
