@@ -19,6 +19,15 @@ const useStyles = makeStyles((theme) => ({
     },
     dialog: {
         width: 500,
+    },
+    formWrapper: {
+        padding: '20px 100px',
+    },
+    inputWrapper: {
+        marginBottom: 20,
+    },
+    iconRigth: {
+        marginLeft: 15,
     }
 }));
 

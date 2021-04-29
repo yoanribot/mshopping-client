@@ -24,11 +24,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Profile = () => {
-  const { user } = useAuth0();
-  const { picture, email, sub: auth0UserID } = user;
   const classes = useStyles();
 
   const { currentUser, createUser } = useContext(userContext);
+  const { user } = useAuth0();
+  const { picture, email, sub: auth0UserID } = user;
+
   const [name, setName] = useState(currentUser.name);
   const [lastname, setLastname] = useState(currentUser.lastname);
   const [description, setDescription] = useState(currentUser.description);

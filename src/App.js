@@ -3,12 +3,14 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { makeStyles } from '@material-ui/core/styles';
 import ProtectedRoute from "./auth/protected-route";
-import Home from './views/home';
-import'./App.css'
 import Profile from './views/profile';
 import TestApi from './views/test-api';
 import Post from './views/posts';
 import Manage from './views/manage';
+import ContactUs from './views/contact-us';
+
+import Home from './views/home';
+import'./App.css'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Header from './components/header';
@@ -35,6 +37,10 @@ const appTabs = [
     label: 'Posts',
     url: '/posts',
   },
+  {
+    label: 'Contact us',
+    url: '/contact-us',
+  },
 ];
 
 function App() {
@@ -60,6 +66,7 @@ function App() {
             <Route path="/" exact component={Home} />
             <Route path="/test" component={TestApi} />
             <Route path="/posts" component={Post} />
+            <Route path="/contact-us" component={ContactUs} />
             <ProtectedRoute path="/profile" component={Profile} />
             <ProtectedRoute roles={[roles.ADMIN]} path="/manage" component={Manage} />
             <Redirect to='/' />
