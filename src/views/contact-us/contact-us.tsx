@@ -14,8 +14,7 @@ import Card from '@material-ui/core/Card';
 import SendIcon from '@material-ui/icons/Send';
 
 type FormValues = {
-  firstName: string,
-  lastName: string,
+  name: string,
   age: number,
   title: string,
   email: string,
@@ -28,15 +27,13 @@ const ContactUs = memo(({ }) => {
   const { user } = useAuth0();
 
   const [name, setName] = useState('');
-  const [lastname, setLastname] = useState('');
   const [age, setAge] = useState(0);
   const [email, setEmail] = useState('');
   const [title, setTitle] = useState('Need some help');
-  const [text, setText] = useState('Buenos dias ante todo ...');
+  const [text, setText] = useState('I dont know how to send an email with a proper template...Can you help me? thank you. have a nice day');
 
   useEffect(() => {
-    setName(currentUser.name);
-    setLastname(currentUser.lastname);
+    setName(`${currentUser.name} ${currentUser.lastname}`);
     setAge(currentUser.age);
   }, [currentUser]);
 
@@ -45,7 +42,12 @@ const ContactUs = memo(({ }) => {
   }, [user]);
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
-  const onSubmit = data => sendEmail(data);
+  const onSubmit = data => {
+    console.log('data', data);
+    sendEmail(data);
+  }
+
+  console.log('errors', errors)
 
   return (
     <Card className={globalStyles.formWrapper}>
@@ -57,22 +59,14 @@ const ContactUs = memo(({ }) => {
         <div className={globalStyles.inputWrapper}>
           <TextField
             fullWidth
-            error={!!errors.firstName}
-            label={'First Name'}
+            error={!!errors.name}
+            label={'Name'}
             value={name}
-            {...register("firstName", { required: "This field is required", maxLength: { value: 20, message: 'You exceed the max length'} })}
+            {...register("name", { required: "This field is required", maxLength: { value: 20, message: 'You exceed the max length'} })}
           />
           <FormHelperText error id="component-error-text">
-            {errors.firstName && errors.firstName.message}
+            {errors.name && errors.name.message}
           </FormHelperText>
-        </div>
-        <div className={globalStyles.inputWrapper}>
-          <TextField
-            fullWidth
-            value={lastname}
-            label={'LastName'}
-            {...register("lastName", { pattern: /^[A-Za-z]+$/i })}
-          />
         </div>
         <div className={globalStyles.inputWrapper}>
           <TextField
