@@ -1,6 +1,6 @@
 import React, { memo, useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Context as UserContext } from '../../context/user';
 import { useAuth0 } from "@auth0/auth0-react";
 import { sendEmail } from '../../services/email';
@@ -15,7 +15,6 @@ import SendIcon from '@material-ui/icons/Send';
 
 type FormValues = {
   name: string,
-  age: number,
   title: string,
   email: string,
   text: string,
@@ -25,23 +24,20 @@ const ContactUs = memo(({ }) => {
   const globalStyles = useGlobalStyles();
   const { currentUser } = useContext(UserContext);
   const { user } = useAuth0();
+  const { reset, control, getValues, handleSubmit, formState: { errors } } = useForm<FormValues>();
 
-  const [name, setName] = useState('');
-  const [age, setAge] = useState(0);
-  const [email, setEmail] = useState('');
-  const [title, setTitle] = useState('Need some help');
-  const [text, setText] = useState('I dont know how to send an email with a proper template...Can you help me? thank you. have a nice day');
+  const currentFormValues = getValues();
 
   useEffect(() => {
-    setName(`${currentUser.name} ${currentUser.lastname}`);
-    setAge(currentUser.age);
-  }, [currentUser]);
+    reset({
+      ...currentFormValues,
+      name: `${currentUser.name} ${currentUser.lastname}`,
+      email: user.email,
+      title: 'Need some help',
+      text: 'I dont know how to send an email with a proper template...Can you help me? thank you. have a nice day',
+    });
+  }, [currentUser, user]);
 
-  useEffect(() => {
-    setEmail(user.email);
-  }, [user]);
-
-  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
   const onSubmit = data => {
     console.log('data', data);
     sendEmail(data);
@@ -56,55 +52,87 @@ const ContactUs = memo(({ }) => {
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={globalStyles.inputWrapper}>
-          <TextField
-            fullWidth
-            error={!!errors.name}
-            label={'Name'}
-            value={name}
-            {...register("name", { required: "This field is required", maxLength: { value: 20, message: 'You exceed the max length'} })}
-          />
-          <FormHelperText error id="component-error-text">
-            {errors.name && errors.name.message}
-          </FormHelperText>
-        </div>
-        <div className={globalStyles.inputWrapper}>
-          <TextField
-            fullWidth
-            label={'Age'}
-            value={age}
-            type="number" {...register("age", { min: 18, max: 99 })}
-          />
-        </div>
-        <div className={globalStyles.inputWrapper}>
-          <TextField
-            fullWidth
-            value={title}
-            label={'Title'}
-           {...register("title")}
-          />
-        </div>
+        <Controller
+          name={'name'}
+          control={control}
+          defaultValue={currentFormValues.name || "" }
+          rules={{ required: "This field is required", maxLength: { value: 20, message: 'You exceed the max length'}}}
+          render={({ field }) => (
+            <div className={globalStyles.inputWrapper}>
+              <TextField
+                fullWidth
+                error={!!errors.name}
+                label={'Name'}
+                {...field}
+              />
+              <FormHelperText error id="component-error-text">
+                {errors.name && errors.name.message}
+              </FormHelperText>
+            </div>
+          )}
+        />
+        <Controller
+          name={'title'}
+          control={control}
+          defaultValue={currentFormValues.title || "" }
+          rules={{ required: "This field is required" }}
+          render={({ field }) => (
+            <div className={globalStyles.inputWrapper}>
+              <TextField
+                fullWidth
+                error={!!errors.title}
+                label={'Title'}
+                {...field}
+              />
+              <FormHelperText error id="component-error-text">
+                {errors.title && errors.title.message}
+              </FormHelperText>
+            </div>
+          )}
+        />
 
-        <div className={globalStyles.inputWrapper}>
-          <TextField
-            fullWidth
-            value={email}
-            label={'Contact me at (Email)'}
-            type='email' {...register("email")}
-          />
-        </div>
+        <Controller
+          name={'email'}
+          control={control}
+          defaultValue={currentFormValues.email || "" }
+          rules={{ required: "A contact email is required" }}
+          render={({ field }) => (
+            <div className={globalStyles.inputWrapper}>
+              <TextField
+                fullWidth
+                error={!!errors.email}
+                label={'Contact me at (Email)'}
+                {...field}
+              />
+              <FormHelperText error id="component-error-text">
+                {errors.email && errors.email.message}
+              </FormHelperText>
+            </div>
+          )}
+        />
 
-        <div className={globalStyles.inputWrapper}>
-          <TextField
-            label={'Body'}
-            fullWidth
-            multiline
-            rows={6}
-            value={text}
-            variant={'outlined'}
-           {...register("text")}
-          />
-        </div>
+        <Controller
+          name={'text'}
+          control={control}
+          defaultValue={currentFormValues.text || "" }
+          rules={{ required: "This field is required" }}
+          render={({ field }) => (
+            <div className={globalStyles.inputWrapper}>
+              <TextField
+                fullWidth
+                multiline
+                rows={6}
+                variant={'outlined'}
+                error={!!errors.text}
+                label={'Body'}
+                {...field}
+              />
+              <FormHelperText error id="component-error-text">
+                {errors.text && errors.text.message}
+              </FormHelperText>
+            </div>
+          )}
+        />
 
         <Button variant="contained" color="primary" type={'submit'}>
           Send
