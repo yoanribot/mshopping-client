@@ -40,6 +40,7 @@ const appTabs = [
   {
     label: 'Contact us',
     url: '/contact-us',
+    needLogging: true,
   },
 ];
 
@@ -66,7 +67,7 @@ function App() {
             <Route path="/" exact component={Home} />
             <Route path="/test" component={TestApi} />
             <Route path="/posts" component={Post} />
-            <Route path="/contact-us" component={ContactUs} />
+            <ProtectedRoute path="/contact-us" component={ContactUs} />
             <ProtectedRoute path="/profile" component={Profile} />
             <ProtectedRoute roles={[roles.ADMIN]} path="/manage" component={Manage} />
             <Redirect to='/' />

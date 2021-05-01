@@ -1,12 +1,14 @@
 import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 const NavigationBar = memo(({ tabs }) => {
   const history = useHistory();
+  const { isAuthenticated } = useAuth0();
 
   const [value, setValue] = useState(0);
 
@@ -22,7 +24,7 @@ const NavigationBar = memo(({ tabs }) => {
       showLabels
     >
       {tabs.map(tab => (
-        <BottomNavigationAction key={tab.label} label={tab.label} />
+        (!tab.needLogging || isAuthenticated) && <BottomNavigationAction key={tab.label} label={tab.label} />
       ))}
     </BottomNavigation>
     );
