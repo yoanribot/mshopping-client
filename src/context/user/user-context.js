@@ -7,6 +7,8 @@ export const Context =  createContext({
     createUser: () => {},
     updateUser: () => {},
     removeUser: () => {},
+    addWish: () => {},
+    removeWish: () => {},
 });
 
 export const Consumer = Context.Consumer;

@@ -12,6 +12,11 @@ import { Provider as PostProvider } from './context/post';
 import { SnackbarProvider } from 'notistack';
 import axios from 'axios';
 
+import '@fortawesome/fontawesome-free/js/fontawesome'
+import '@fortawesome/fontawesome-free/js/solid'
+import '@fortawesome/fontawesome-free/js/regular'
+import '@fortawesome/fontawesome-free/js/brands'
+
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 
 ReactDOM.render(

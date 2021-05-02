@@ -8,6 +8,7 @@ import TestApi from './views/test-api';
 import Post from './views/posts';
 import Manage from './views/manage';
 import ContactUs from './views/contact-us';
+import WishList from './views/wishlist';
 
 import Home from './views/home';
 import'./App.css'
@@ -36,6 +37,11 @@ const appTabs = [
   {
     label: 'Posts',
     url: '/posts',
+  },
+  {
+    label: 'Wish List',
+    url: '/wishlist',
+    needLogging: true,
   },
   {
     label: 'Contact us',
@@ -67,6 +73,7 @@ function App() {
             <Route path="/" exact component={Home} />
             <Route path="/test" component={TestApi} />
             <Route path="/posts" component={Post} />
+            <ProtectedRoute path="/wishlist" component={WishList} />
             <ProtectedRoute path="/contact-us" component={ContactUs} />
             <ProtectedRoute path="/profile" component={Profile} />
             <ProtectedRoute roles={[roles.ADMIN]} path="/manage" component={Manage} />

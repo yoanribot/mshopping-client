@@ -1,10 +1,13 @@
-import React, { memo, useState, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { memo, useState, useEffect } from 'react';
+
 import { useAuth0 } from "@auth0/auth0-react";
 import { Provider } from './user-context';
 import {
     getUserByAuth0Id as _getUserByAuth0Id,
+    getUserById as _getUserById,
     createUser as _createUser,
+    addWish as _addWish,
+    removeWish as _removeWish,
 } from './resource';
 import UserModel from '../models/user';
 
@@ -39,6 +42,19 @@ const UserProvider = memo(({ children }) => {
         }
     };
 
+    const getUserById = async userId => {
+        try {
+            const data = await _getUserById(userId);
+
+            if (data) {
+                setCurrentUser(new UserModel(data));
+            }
+
+        } catch(err) {
+            throw err;
+        }
+    };
+
     const createUser = async user => {
         try {
             const data = await _createUser(user);
@@ -49,15 +65,33 @@ const UserProvider = memo(({ children }) => {
         }
     }
 
+    const addWish = async (wish) => {
+        try {
+            await _addWish(currentUser.id, wish);
+            await getUserById(currentUser.id);
+        } catch(err) {
+            throw err;
+        }
+    }
+
+    const removeWish = async (wishId) => {
+        try {
+            await _removeWish(currentUser.id, wishId);
+            await getUserById(currentUser.id);
+        } catch(err) {
+            throw err;
+        }
+    }
+
     return (
         <Provider
             value={{
                 currentUser,
                 getUserByAuth0Id,
-                // getUser,
+                getUserById,
                 createUser,
-                // updateUser,
-                // removeUser,
+                addWish,
+                removeWish,
             }}
         >
             {children}
