@@ -1,4 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { red } from '@material-ui/core/colors';
+
+const _red = red[700];
 
 const useStyles = makeStyles((theme) => ({
     flex: {
@@ -12,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
     },
     left: {
         float: 'left',
+    },
+    removeBtn: {
+        color: _red,
     },
     btnAlign: {
         height: '40px',

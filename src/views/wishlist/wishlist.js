@@ -2,12 +2,16 @@ import React, { memo, useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { getStoreAndDomain } from '../../services/helper';
 import { Context as userContext } from '../../context/user';
+import { useHistory } from "react-router-dom";
 
+import getGlobalStyles from '../../common/styles/base';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { makeStyles } from '@material-ui/core/styles';
 import MUIDataTable from "mui-datatables";
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import NearMeIcon from '@material-ui/icons/NearMe';
 import AddLinkForm from './add-form';
 import TextField from '@material-ui/core/TextField';
 
@@ -23,12 +27,19 @@ const useStyles = makeStyles((theme) => ({
 
 const WishList = memo(({ }) => {
   const { currentUser, addWish, removeWish } = useContext(userContext);
+  const history = useHistory();
 
   const [isVisibleAddForm, setIsVisibleAddForm] = useState(false);
   const [newLink, setNewLink] = useState('https://www.amazon.fr/gp/product/B08FD3L3MP?pf_rd_r=7BXNPZ1THJ6R61QTT9EV&pf_rd_p=ed1ef413-005c-474d-837a-434c7d76d0d9&pd_rd_r=0978967d-15ef-4943-9447-e5684739cae5&pd_rd_w=YNP6p&pd_rd_wg=SHm7q&ref_=pd_gw_unk');
   const classes = useStyles();
+  const globalStyles = getGlobalStyles();
 
-  const options = {};
+  const options = {
+    onRowClick: (rowData, rowMeta) =>  history.push(`${window.location.pathname}/${currentUser.wishes[rowMeta.rowIndex]._id}`)
+  };
+
+  const onRemoveLink = () => console.log('TODO onRemoveLink ...');
+  const onGoToStore = () => console.log('TODO onGoToStore ...');
 
   const columns = [
     {
@@ -56,9 +67,6 @@ const WishList = memo(({ }) => {
         customBodyRenderLite: (dataIndex, rowIndex) => {
           const { store, domain } = getStoreAndDomain(currentUser.wishes[rowIndex].url);
 
-          console.log('currentUser.wishes[rowIndex].url', currentUser.wishes[rowIndex].url);
-          console.log('store', store);
-
           return (
             <>
               {!!store && <FontAwesomeIcon icon={["fab", store ]} />}
@@ -74,6 +82,24 @@ const WishList = memo(({ }) => {
       options: {
         filter: true,
         sort: false,
+      }
+    },
+    {
+      name: "",
+      label: "",
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRenderLite: (dataIndex, rowIndex) => (
+          <div className={globalStyles.flex}>
+            <IconButton color={'secondary'} aria-label="menu" onClick={onGoToStore}>
+              <NearMeIcon fontSize='small' />
+            </IconButton>
+            <IconButton className={globalStyles.removeBtn} aria-label="menu" onClick={onRemoveLink}>
+              <DeleteIcon fontSize='small' />
+            </IconButton>
+          </div>
+        )
       }
     },
   ];

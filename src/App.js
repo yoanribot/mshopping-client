@@ -39,7 +39,7 @@ const appTabs = [
     url: '/posts',
   },
   {
-    label: 'Wish List',
+    label: 'Wishes',
     url: '/wishlist',
     needLogging: true,
   },

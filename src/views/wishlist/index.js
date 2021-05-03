@@ -1,1 +1,1 @@
-export { default } from './wishlist';
+export { default } from './wishlist-router';
