@@ -18,6 +18,7 @@ import Header from './components/header';
 import NavigationBar from './components/navigation-bar';
 import { roles } from './app-constants';
 import initHttpInterceptor from './app-http-interceptor';
+import { translate } from './services/i18n';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -67,6 +68,8 @@ function App() {
       <div id="app" className={classes.body}>
         <Header />
         <NavigationBar tabs={appTabs} />
+
+        <p>{translate('hola')}</p>
 
         <Container className={classes.container}>
           <Switch>

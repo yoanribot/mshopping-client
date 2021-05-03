@@ -11,6 +11,7 @@ import { Provider as UserProvider } from './context/user';
 import { Provider as PostProvider } from './context/post';
 import { SnackbarProvider } from 'notistack';
 import axios from 'axios';
+import { initTranslations } from './services/i18n';
 
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
@@ -19,22 +20,24 @@ import '@fortawesome/fontawesome-free/js/brands'
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 
-ReactDOM.render(
-	<Router>
-		<Auth0ProviderWithHistory>
-			<SnackbarProvider maxSnack={3}>
-				<UserProvider>
-					<PostProvider>
-						<ThemeProvider theme={globalTheme}>
-							<App />
-						</ThemeProvider>
-					</PostProvider>
-				</UserProvider>
-			</SnackbarProvider>
-		</Auth0ProviderWithHistory>
-	</Router>,
- 	document.getElementById('root')
-);
+initTranslations(() => {
+	ReactDOM.render(
+		<Router>
+			<Auth0ProviderWithHistory>
+				<SnackbarProvider maxSnack={3}>
+					<UserProvider>
+						<PostProvider>
+							<ThemeProvider theme={globalTheme}>
+								<App />
+							</ThemeProvider>
+						</PostProvider>
+					</UserProvider>
+				</SnackbarProvider>
+			</Auth0ProviderWithHistory>
+		</Router>,
+		 document.getElementById('root')
+	);
+});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
