@@ -4,6 +4,7 @@ import localeES from '../../public/locales/i18n-es.json';
 import { initReactI18next } from 'react-i18next';
 
 const defaultLanguage = 'en';
+console.log('language', localStorage.getItem('language'));
 
 export const initTranslations = (callback) => {
   i18next

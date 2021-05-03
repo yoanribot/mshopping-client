@@ -69,7 +69,7 @@ function App() {
         <Header />
         <NavigationBar tabs={appTabs} />
 
-        <p>{translate('hola')}</p>
+        <p>{translate('hello')}</p>
 
         <Container className={classes.container}>
           <Switch>
