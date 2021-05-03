@@ -9,6 +9,8 @@ import Post from './views/posts';
 import Manage from './views/manage';
 import ContactUs from './views/contact-us';
 import WishList from './views/wishlist';
+import { translate } from './services/i18n';
+import { useTranslation } from 'react-i18next';
 
 import Home from './views/home';
 import'./App.css'
@@ -18,7 +20,6 @@ import Header from './components/header';
 import NavigationBar from './components/navigation-bar';
 import { roles } from './app-constants';
 import initHttpInterceptor from './app-http-interceptor';
-import { translate } from './services/i18n';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -53,6 +54,7 @@ const appTabs = [
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { i18n } = useTranslation();
   const classes = useStyles();
 
   useEffect(() => {
@@ -68,8 +70,6 @@ function App() {
       <div id="app" className={classes.body}>
         <Header />
         <NavigationBar tabs={appTabs} />
-
-        <p>{translate('hello')}</p>
 
         <Container className={classes.container}>
           <Switch>

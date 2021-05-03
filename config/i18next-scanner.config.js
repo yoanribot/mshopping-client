@@ -11,6 +11,7 @@ module.exports = {
     ],
     output: './',
     options: {
+        removeUnusedKeys: true,
         debug: true,
         func: {
             list: ['i18next.t', 'i18n.t'],
@@ -30,9 +31,8 @@ module.exports = {
                 // Check out https://github.com/acornjs/acorn/tree/master/acorn#interface for additional options
             }
         },
-        lngs: ['en','de'],
+        lngs: ['en', 'es'],
         ns: [
-            'locale',
             'resource'
         ],
         defaultLng: 'en',
