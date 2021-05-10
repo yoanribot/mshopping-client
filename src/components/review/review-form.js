@@ -10,48 +10,46 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import getGlobalStyles from '../../common/styles/base';
 
 const ReviewForm = memo(({ isOpen, onClose, onSave }) => {
-    const [text, setText] = useState();
-    const globalClasses = getGlobalStyles();
+  const [text, setText] = useState();
+  const globalClasses = getGlobalStyles();
 
-    const onChangeText = e => setText(e.target.value);
-    const _onSave = () => onSave(text);
+  const onChangeText = (e) => setText(e.target.value);
+  const _onSave = () => onSave(text);
 
-    return (
-        <Dialog open={isOpen} onClose={onClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Review Form:</DialogTitle>
-            <DialogContent className={globalClasses.dialog}>
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="text"
-                    label="Add your comment"
-                    fullWidth
-                    multiline
-                    rows={10}
-                    value={text}
-                    onChange={onChangeText}
-                />
-            </DialogContent>
-            <DialogActions>
-            <Button onClick={onClose} color="primary">
-                Cancel
-            </Button>
-            <Button onClick={_onSave} color="primary">
-                Add
-            </Button>
-            </DialogActions>
-        </Dialog>
-    );
+  return (
+    <Dialog open={isOpen} onClose={onClose} aria-labelledby="form-dialog-title">
+      <DialogTitle id="form-dialog-title">Review Form:</DialogTitle>
+      <DialogContent className={globalClasses.dialog}>
+        <TextField
+          autoFocus
+          margin="dense"
+          id="text"
+          label="Add your comment"
+          fullWidth
+          multiline
+          rows={10}
+          value={text}
+          onChange={onChangeText}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={_onSave} color="primary">
+          Add
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 });
 
 ReviewForm.propTypes = {
-    isOpen: PropTypes.bool,
-    onClose: PropTypes.func,
-    onSave: PropTypes.func,
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  onSave: PropTypes.func,
 };
 
-ReviewForm.defaultProps = {
-
-};
+ReviewForm.defaultProps = {};
 
 export default ReviewForm;

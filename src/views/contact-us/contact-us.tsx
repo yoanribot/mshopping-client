@@ -1,8 +1,8 @@
 import React, { memo, useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller } from 'react-hook-form';
 import { Context as UserContext } from '../../context/user';
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from '@auth0/auth0-react';
 import { sendEmail } from '../../services/email';
 
 import useGlobalStyles from '../../common/styles/base';
@@ -14,36 +14,43 @@ import Card from '@material-ui/core/Card';
 import SendIcon from '@material-ui/icons/Send';
 
 type FormValues = {
-  name: string,
-  title: string,
-  email: string,
-  text: string,
+  name: string;
+  title: string;
+  email: string;
+  text: string;
 };
 
-const ContactUs = memo(({ }) => {
+const ContactUs = memo(({}) => {
   const globalStyles = useGlobalStyles();
   const { currentUser } = useContext(UserContext);
   const { user } = useAuth0();
-  const { reset, control, getValues, handleSubmit, formState: { errors } } = useForm<FormValues>();
+  const {
+    reset,
+    control,
+    getValues,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
 
   const currentFormValues = getValues();
 
   useEffect(() => {
     reset({
-      ...currentFormValues,
+      ...getValues(),
       name: `${currentUser.name} ${currentUser.lastname}`,
       email: user.email,
       title: 'Need some help',
-      text: 'I dont know how to send an email with a proper template...Can you help me? thank you. have a nice day',
+      text:
+        'I dont know how to send an email with a proper template...Can you help me? thank you. have a nice day',
     });
-  }, [currentUser, user]);
+  }, [currentUser, user, reset, getValues]);
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     console.log('data', data);
     sendEmail(data);
-  }
+  };
 
-  console.log('errors', errors)
+  console.log('errors', errors);
 
   return (
     <Card className={globalStyles.formWrapper}>
@@ -55,8 +62,11 @@ const ContactUs = memo(({ }) => {
         <Controller
           name={'name'}
           control={control}
-          defaultValue={currentFormValues.name || "" }
-          rules={{ required: "This field is required", maxLength: { value: 20, message: 'You exceed the max length'}}}
+          defaultValue={currentFormValues.name || ''}
+          rules={{
+            required: 'This field is required',
+            maxLength: { value: 20, message: 'You exceed the max length' },
+          }}
           render={({ field }) => (
             <div className={globalStyles.inputWrapper}>
               <TextField
@@ -74,8 +84,8 @@ const ContactUs = memo(({ }) => {
         <Controller
           name={'title'}
           control={control}
-          defaultValue={currentFormValues.title || "" }
-          rules={{ required: "This field is required" }}
+          defaultValue={currentFormValues.title || ''}
+          rules={{ required: 'This field is required' }}
           render={({ field }) => (
             <div className={globalStyles.inputWrapper}>
               <TextField
@@ -94,8 +104,8 @@ const ContactUs = memo(({ }) => {
         <Controller
           name={'email'}
           control={control}
-          defaultValue={currentFormValues.email || "" }
-          rules={{ required: "A contact email is required" }}
+          defaultValue={currentFormValues.email || ''}
+          rules={{ required: 'A contact email is required' }}
           render={({ field }) => (
             <div className={globalStyles.inputWrapper}>
               <TextField
@@ -114,8 +124,8 @@ const ContactUs = memo(({ }) => {
         <Controller
           name={'text'}
           control={control}
-          defaultValue={currentFormValues.text || "" }
-          rules={{ required: "This field is required" }}
+          defaultValue={currentFormValues.text || ''}
+          rules={{ required: 'This field is required' }}
           render={({ field }) => (
             <div className={globalStyles.inputWrapper}>
               <TextField
@@ -140,7 +150,7 @@ const ContactUs = memo(({ }) => {
         </Button>
       </form>
     </Card>
-    );
-  });
+  );
+});
 
-  export default ContactUs;
+export default ContactUs;

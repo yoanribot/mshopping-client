@@ -1,8 +1,9 @@
 import i18next from 'i18next';
 // import localeEN from '../../build/locales/i18n-en.json';
 // import localeES from '../../public/locales/i18n-es.json';
-import localeEN from '../../build/i18n/en/resource.json';
-import localeES from '../../build/i18n/es/resource.json';
+import localeEN from '../../i18n/en/resource.json';
+import localeES from '../../i18n/es/resource.json';
+import localeFR from '../../i18n/fr/resource.json';
 import { initReactI18next } from 'react-i18next';
 
 const defaultLanguage = 'en';
@@ -13,7 +14,7 @@ export const initTranslations = (callback) => {
     .use(initReactI18next)
     .init({
       lng: localStorage.getItem('language') || defaultLanguage,
-      whitelist: ['en', 'es'],
+      whitelist: ['en', 'es', 'fr'],
       fallbackLng: 'en',
       keySeparator: false,
       // resources: {
@@ -26,6 +27,9 @@ export const initTranslations = (callback) => {
         },
         es: {
           translation: localeES,
+        },
+        fr: {
+          translation: localeFR,
         }
       },
       interpolation: {

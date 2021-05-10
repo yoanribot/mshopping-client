@@ -100,7 +100,7 @@
     "build": "node scripts/build.js",
     "build:langs": "i18next-scanner --config config/i18next-scanner.config.js 'src/**/*.{js,jsx}'",
     "build:langs2": "node scripts/i18n-scanner.js",
-    "build:langs-sync": "node scripts/i18n-languages-sync.js",
+    "build:langs2-sync": "node scripts/i18n-languages-sync.js",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {

@@ -15,7 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const ReviewSimpleList = memo(({ reviews, onRemove }) => {
-   return (
+  return (
     <Paper elevation={0}>
       <List dense={true}>
         {reviews.map(({ text, date }) => (
@@ -25,17 +25,18 @@ const ReviewSimpleList = memo(({ reviews, onRemove }) => {
                 <BeenhereIcon />
               </Avatar>
             </ListItemAvatar>
+
             <ListItemText
               primary={text}
-              secondary={moment(date).format("DD-MM-YYYY")}
+              secondary={moment(date).format('DD-MM-YYYY')}
             />
-            {!!onRemove &&
-              (<ListItemSecondaryAction>
+            {!!onRemove && (
+              <ListItemSecondaryAction>
                 <IconButton edge="end" aria-label="delete" onClick={onRemove}>
                   <DeleteIcon />
                 </IconButton>
-              </ListItemSecondaryAction>)
-            }
+              </ListItemSecondaryAction>
+            )}
           </ListItem>
         ))}
       </List>
@@ -44,10 +45,12 @@ const ReviewSimpleList = memo(({ reviews, onRemove }) => {
 });
 
 ReviewSimpleList.propTypes = {
-  reviews: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-  })),
+  reviews: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+    }),
+  ),
   onRemove: PropTypes.func,
 };
 
