@@ -1,5 +1,4 @@
-import React, { memo, useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { memo, useContext, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Context as UserContext } from '../../context/user';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -40,8 +39,7 @@ const ContactUs = memo(({}) => {
       name: `${currentUser.name} ${currentUser.lastname}`,
       email: user.email,
       title: 'Need some help',
-      text:
-        'I dont know how to send an email with a proper template...Can you help me? thank you. have a nice day',
+      text: 'I dont know how to send an email with a proper template...Can you help me? thank you. have a nice day',
     });
   }, [currentUser, user, reset, getValues]);
 
