@@ -2,7 +2,6 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -15,7 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const PostsSimpleList = memo(({ posts, onRemove }) => {
-   return (
+  return (
     <Paper elevation={0}>
       <List dense={true}>
         {posts.map(({ title, date }) => (
@@ -27,15 +26,15 @@ const PostsSimpleList = memo(({ posts, onRemove }) => {
             </ListItemAvatar>
             <ListItemText
               primary={title}
-              secondary={moment(date).format("DD-MM-YYYY")}
+              secondary={moment(date).format('DD-MM-YYYY')}
             />
-            {!!onRemove &&
-              (<ListItemSecondaryAction>
+            {!!onRemove && (
+              <ListItemSecondaryAction>
                 <IconButton edge="end" aria-label="delete" onClick={onRemove}>
                   <DeleteIcon />
                 </IconButton>
-              </ListItemSecondaryAction>)
-            }
+              </ListItemSecondaryAction>
+            )}
           </ListItem>
         ))}
       </List>
@@ -44,10 +43,12 @@ const PostsSimpleList = memo(({ posts, onRemove }) => {
 });
 
 PostsSimpleList.propTypes = {
-  posts: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-  })),
+  posts: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+    }),
+  ),
   onRemove: PropTypes.func,
 };
 

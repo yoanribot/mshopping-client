@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useMemo } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
@@ -14,16 +14,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const AddLinkForm = memo(({ isVisible, onAdd, onCancel }) => {
-  const [state, setstate] = useState();
-
-  useEffect(() => {
-  }, []);
-
   const handleClose = () => onCancel();
   const handleAdd = () => {
     onAdd();
     handleClose();
-  }
+  };
 
   return (
     <Dialog
@@ -34,11 +29,13 @@ const AddLinkForm = memo(({ isVisible, onAdd, onCancel }) => {
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle id="alert-dialog-slide-title">{"Use Google's location service?"}</DialogTitle>
+      <DialogTitle id="alert-dialog-slide-title">
+        {"Use Google's location service?"}
+      </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description">
-          Let Google help apps determine location. This means sending anonymous location data to
-          Google, even when no apps are running.
+          Let Google help apps determine location. This means sending anonymous
+          location data to Google, even when no apps are running.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -57,10 +54,6 @@ AddLinkForm.propTypes = {
   isVisible: PropTypes.bool,
   onAdd: PropTypes.func,
   onCancel: PropTypes.func,
-};
-
-AddLinkForm.defaultProps = {
-
 };
 
 export default AddLinkForm;

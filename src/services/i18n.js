@@ -7,7 +7,6 @@ import localeFR from '../../i18n/fr/resource.json';
 import { initReactI18next } from 'react-i18next';
 
 const defaultLanguage = 'en';
-console.log('language', localStorage.getItem('language'));
 
 export const initTranslations = (callback) => {
   i18next
@@ -30,7 +29,7 @@ export const initTranslations = (callback) => {
         },
         fr: {
           translation: localeFR,
-        }
+        },
       },
       interpolation: {
         prefix: '{',
@@ -50,7 +49,10 @@ export const initTranslations = (callback) => {
 };
 
 export const translate = (id, values) => {
-  const translation = i18next.t(id, values) || id;
+  const translation =
+    i18next.t(id, values) !== '__STRING_NOT_TRANSLATED__'
+      ? i18next.t(id, values)
+      : id;
 
   if (translation === id && process.env.NODE_ENV !== 'none') {
     console.warn(`ID ${id} has no translation!`);
@@ -59,8 +61,9 @@ export const translate = (id, values) => {
   return translation;
 };
 
-export const changeLanguage = language => i18next.changeLanguage(language, (err, t) => {
-  if (err) return console.log('something went wrong loading', err);
+export const changeLanguage = (language) =>
+  i18next.changeLanguage(language, (err, t) => {
+    if (err) return console.log('something went wrong loading', err);
 
-  localStorage.setItem('language', language);
-});
+    localStorage.setItem('language', language);
+  });

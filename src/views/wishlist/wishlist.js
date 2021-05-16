@@ -1,5 +1,4 @@
 import React, { memo, useState, useContext } from 'react';
-import PropTypes from 'prop-types';
 import { getStoreAndDomain } from '../../services/helper';
 import { Context as userContext } from '../../context/user';
 import { Context as wishContext } from '../../context/wish';
@@ -51,8 +50,8 @@ const NearMeIconX = styled(NearMeIcon)({
   color: _green,
 });
 
-const WishList = memo(({}) => {
-  const { currentUser, addWish, removeWish } = useContext(userContext);
+const WishList = memo(() => {
+  const { currentUser, addWish } = useContext(userContext);
   const { onCheckProduct, getAfiliateLink } = useContext(wishContext);
   const history = useHistory();
 
@@ -63,14 +62,12 @@ const WishList = memo(({}) => {
 
   const onRemoveLink = () => console.log('TODO onRemoveLink ...');
   const onGoToStore = (id) => {
-    console.log('id', id);
     getAfiliateLink(id);
   };
   const onViewDetails = (id) =>
     history.push(`${window.location.pathname}/${id}`);
 
   const _onCheckProduct = (wish) => {
-    console.log('wish', wish);
     onCheckProduct(wish._id);
   };
 
@@ -225,9 +222,5 @@ const WishList = memo(({}) => {
     </>
   );
 });
-
-WishList.propTypes = {};
-
-WishList.defaultProps = {};
 
 export default WishList;

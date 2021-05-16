@@ -1,23 +1,7 @@
-import React, { memo, useState, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { memo } from 'react';
 
-const Page403 = memo(({ }) => {
-    const [state, setstate] = useState();
-
-    useEffect(() => {
-    }, []);
-
-    return (
-        <>Page403 UNAUTHORIZED ...</>
-    );
+const Page403 = memo(() => {
+  return <>Page403 UNAUTHORIZED ...</>;
 });
-
-Page403.propTypes = {
-
-};
-
-Page403.defaultProps = {
-
-};
 
 export default Page403;

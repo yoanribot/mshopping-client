@@ -19,7 +19,7 @@ type FormValues = {
   text: string;
 };
 
-const ContactUs = memo(({}) => {
+const ContactUs = memo(() => {
   const globalStyles = useGlobalStyles();
   const { currentUser } = useContext(UserContext);
   const { user } = useAuth0();
@@ -44,11 +44,8 @@ const ContactUs = memo(({}) => {
   }, [currentUser, user, reset, getValues]);
 
   const onSubmit = (data) => {
-    console.log('data', data);
     sendEmail(data);
   };
-
-  console.log('errors', errors);
 
   return (
     <Card className={globalStyles.formWrapper}>

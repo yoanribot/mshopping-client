@@ -1,23 +1,7 @@
-import React, { memo, useState, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { memo } from 'react';
 
-const Page404 = memo(({ }) => {
-    const [state, setstate] = useState();
-
-    useEffect(() => {
-    }, []);
-
-    return (
-        <>Functional Page404 component structure mock up</>
-    );
+const Page404 = memo(() => {
+  return <>Page404 UNAUTHORIZED ...</>;
 });
-
-Page404.propTypes = {
-
-};
-
-Page404.defaultProps = {
-
-};
 
 export default Page404;

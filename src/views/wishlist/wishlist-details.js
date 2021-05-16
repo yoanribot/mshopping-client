@@ -3,7 +3,7 @@ import { Context as userContext } from '../../context/user';
 import { useRouteMatch } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 
-const WishListDetails = memo(({}) => {
+const WishListDetails = memo(() => {
   const { currentUser } = useContext(userContext);
   const {
     params: { wishId },
@@ -50,9 +50,5 @@ const WishListDetails = memo(({}) => {
     </section>
   );
 });
-
-WishListDetails.propTypes = {};
-
-WishListDetails.defaultProps = {};
 
 export default WishListDetails;

@@ -19,7 +19,6 @@ const WishProvider = memo(({ children }) => {
       enqueueSnackbar(
         `Product checked succesfully. Now available for: ${data.price} ${data.currency}`,
       );
-      console.log('currentUser', currentUser);
       getUserById(currentUser.id);
     } catch (err) {
       throw err;
@@ -30,7 +29,6 @@ const WishProvider = memo(({ children }) => {
     try {
       const storeUrl = await _getAfiliateLink(wishId);
 
-      console.log('storeUrl', storeUrl);
       window.open(storeUrl, '_blank');
     } catch (err) {
       throw err;

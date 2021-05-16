@@ -1,10 +1,16 @@
 TODO
+- Remove warnings
+- Implement remove link logic
 - Create amazon afiliate .com / .es
 - Check what happens with .com /.es
 - Add validation for the supported amazon domains(.es, .com, .fr)
 - Add a loader for redirect to store
+- Remove multi selection
+- Add asin code as ProductId
+- Add a confirmation dialog for delete
 - Add view detail on the prodcut name click
 - Add notification section
+- Check what to do when there are a range of prices instead of a single price
 - Add notification by msg if possible
 - Add cron job to run Check price every day
 - Homepage / banner / identity / Scrennshots to show a resume how works the app
@@ -12,5 +18,6 @@ TODO
 - Add footer
 - Add a preatty email template in sendinblue SMTP email provider and learn about dashboard and campains
 - Add translations
+- Add analytics
+- Check case were there are multiple users with the same product
 - Diferentes tipos de Planes / pasarela de pago (stripe)
-- Add Jest for test

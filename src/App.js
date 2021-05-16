@@ -10,7 +10,6 @@ import Manage from './views/manage';
 import ContactUs from './views/contact-us';
 import WishList from './views/wishlist';
 import { translate } from './services/i18n';
-import { useTranslation } from 'react-i18next';
 
 import Home from './views/home';
 import './App.css';
@@ -27,35 +26,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const appTabs = [
-  {
-    label: 'Home',
-    url: '/',
-  },
-  {
-    label: 'Test',
-    url: '/test',
-  },
-  {
-    label: 'Posts',
-    url: '/posts',
-  },
-  {
-    label: 'Wishes',
-    url: '/wishlist',
-    needLogging: true,
-  },
-  {
-    label: 'Contact us',
-    url: '/contact-us',
-    needLogging: true,
-  },
-];
-
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const { i18n } = useTranslation();
   const classes = useStyles();
+
+  const appTabs = [
+    {
+      label: translate('Home'),
+      url: '/',
+    },
+    {
+      label: translate('Test'),
+      url: '/test',
+    },
+    {
+      label: translate('Posts'),
+      url: '/posts',
+    },
+    {
+      label: translate('Wishes'),
+      url: '/wishlist',
+      needLogging: true,
+    },
+    {
+      label: translate('Contact us'),
+      url: '/contact-us',
+      needLogging: true,
+    },
+  ];
 
   useEffect(() => {
     // Add a request interceptor
