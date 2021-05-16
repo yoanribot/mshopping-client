@@ -5,10 +5,11 @@ import { Context as userContext } from '../../context/user';
 import { Context as wishContext } from '../../context/wish';
 import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
+import { red, blue, indigo, green } from '@material-ui/core/colors';
 
 import getGlobalStyles from '../../common/styles/base';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, styled } from '@material-ui/core/styles';
 import MUIDataTable from 'mui-datatables';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
@@ -18,6 +19,11 @@ import NearMeIcon from '@material-ui/icons/NearMe';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import AddLinkForm from './add-form';
 import TextField from '@material-ui/core/TextField';
+
+const _red = red[700];
+const _blue = blue[600];
+const _green = green[600];
+const _indigo = indigo[400];
 
 const useStyles = makeStyles((theme) => ({
   actionsBtnWrapper: {
@@ -29,9 +35,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const DeleteButtonX = styled(DeleteIcon)({
+  color: _red,
+});
+
+const VisibilityIconX = styled(VisibilityIcon)({
+  color: _blue,
+});
+
+const CloudDoneIconX = styled(CloudDoneIcon)({
+  color: _indigo,
+});
+
+const NearMeIconX = styled(NearMeIcon)({
+  color: _green,
+});
+
 const WishList = memo(({}) => {
   const { currentUser, addWish, removeWish } = useContext(userContext);
-  const { onCheckProduct } = useContext(wishContext);
+  const { onCheckProduct, getAfiliateLink } = useContext(wishContext);
   const history = useHistory();
 
   const [isVisibleAddForm, setIsVisibleAddForm] = useState(false);
@@ -40,7 +62,10 @@ const WishList = memo(({}) => {
   const globalStyles = getGlobalStyles();
 
   const onRemoveLink = () => console.log('TODO onRemoveLink ...');
-  const onGoToStore = (url) => window.open(url, '_blank');
+  const onGoToStore = (id) => {
+    console.log('id', id);
+    getAfiliateLink(id);
+  };
   const onViewDetails = (id) =>
     history.push(`${window.location.pathname}/${id}`);
 
@@ -80,9 +105,20 @@ const WishList = memo(({}) => {
           const currentElem = currentUser.wishes[rowIndex];
 
           return (
-            <span>{`${currentElem.currentPrice || ''} ${
-              currentElem.currency || ''
-            }`}</span>
+            <div>
+              {currentElem.lastPrices && currentElem.lastPrices.length > 1 && (
+                <span>{`${
+                  currentElem.lastPrices[currentElem.lastPrices.length - 2]
+                } ${currentElem.currency} >>> `}</span>
+              )}
+              <span>
+                <strong>
+                  {`${currentElem.currentPrice || ''} ${
+                    currentElem.currency || ''
+                  }`}
+                </strong>
+              </span>
+            </div>
           );
         },
       },
@@ -123,22 +159,22 @@ const WishList = memo(({}) => {
         sort: false,
         customBodyRenderLite: (dataIndex, rowIndex) => (
           <div className={globalStyles.flex}>
-            <VisibilityIcon
+            <VisibilityIconX
               fontSize="small"
               onClick={() => onViewDetails(currentUser.wishes[rowIndex]._id)}
               className={globalStyles.btnAction}
             />
-            <CloudDoneIcon
+            <CloudDoneIconX
               fontSize="small"
               onClick={() => _onCheckProduct(currentUser.wishes[rowIndex])}
               className={globalStyles.btnAction}
             />
-            <NearMeIcon
+            <NearMeIconX
               fontSize="small"
-              onClick={() => onGoToStore(currentUser.wishes[rowIndex].url)}
+              onClick={() => onGoToStore(currentUser.wishes[rowIndex]._id)}
               className={globalStyles.btnAction}
             />
-            <DeleteIcon
+            <DeleteButtonX
               fontSize="small"
               onClick={onRemoveLink}
               className={clsx(globalStyles.btnAction, globalStyles.removeBtn)}

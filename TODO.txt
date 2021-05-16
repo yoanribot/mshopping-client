@@ -1,8 +1,16 @@
 TODO
-- Add a preatty email template in sendinblue SMTP email provider and learn about dashboard and campains
-- Add Jest for test
-- Remove on cascade ex: Remove Post (user.remove post from his posts / remove current post / remove reviews associated to the post)
-- Add roles
-- pasarela de pago (stripe)
+- Create amazon afiliate .com / .es
+- Check what happens with .com /.es
+- Add validation for the supported amazon domains(.es, .com, .fr)
+- Add a loader for redirect to store
+- Add view detail on the prodcut name click
+- Add notification section
+- Add notification by msg if possible
+- Add cron job to run Check price every day
+- Homepage / banner / identity / Scrennshots to show a resume how works the app
 - Add 404 /403 page, and maintinance page
 - Add footer
+- Add a preatty email template in sendinblue SMTP email provider and learn about dashboard and campains
+- Add translations
+- Diferentes tipos de Planes / pasarela de pago (stripe)
+- Add Jest for test

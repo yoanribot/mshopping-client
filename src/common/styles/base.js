@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   btnAction: {
     cursor: 'pointer',
-    margin: '0 5px',
+    margin: '0 7px',
   },
   dialog: {
     width: 500,
