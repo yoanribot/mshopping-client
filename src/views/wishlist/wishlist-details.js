@@ -1,14 +1,21 @@
-import React, { memo, useContext } from 'react';
-import { Context as userContext } from '../../context/user';
+import React, { memo, useContext, useEffect } from 'react';
+import { Context as wishContext } from '../../context/wish';
 import { useRouteMatch } from 'react-router-dom';
+
 import { Line } from 'react-chartjs-2';
 
 const WishListDetails = memo(() => {
-  const { currentUser } = useContext(userContext);
+  const { currentWish, getWish } = useContext(wishContext);
+
+  console.log('currentWish', currentWish);
+
   const {
     params: { wishId },
   } = useRouteMatch();
-  const currentWish = currentUser.wishes.find((wish) => wish._id === wishId);
+
+  useEffect(() => {
+    getWish(wishId);
+  }, []);
 
   const data = {
     labels: [...Array(currentWish.lastPrices.length).keys()],
@@ -43,8 +50,8 @@ const WishListDetails = memo(() => {
       </div>
       <h4>List : </h4>
       <ul>
-        {currentWish.lastPrices.map((price) => (
-          <li>{price}</li>
+        {currentWish.lastPrices.map((price, index) => (
+          <li key={index}>{price}</li>
         ))}
       </ul>
     </section>

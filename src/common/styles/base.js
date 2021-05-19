@@ -30,6 +30,21 @@ const useStyles = makeStyles((theme) => ({
   dialog: {
     width: 500,
   },
+  fixedProgres: {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    zIndex: 9999,
+  },
+  bgMask: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    zIndex: 9998,
+  },
   formWrapper: {
     padding: '20px 100px',
   },

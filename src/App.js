@@ -35,14 +35,14 @@ function App() {
       label: translate('Home'),
       url: '/',
     },
-    {
-      label: translate('Test'),
-      url: '/test',
-    },
-    {
-      label: translate('Posts'),
-      url: '/posts',
-    },
+    // {
+    //   label: translate('Test'),
+    //   url: '/test',
+    // },
+    // {
+    //   label: translate('Posts'),
+    //   url: '/posts',
+    // },
     {
       label: translate('Wishes'),
       url: '/wishlist',

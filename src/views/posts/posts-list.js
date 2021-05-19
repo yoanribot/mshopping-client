@@ -128,7 +128,7 @@ const PostsList = memo(() => {
 
   useEffect(() => {
     getPosts();
-  }, [getPosts]);
+  }, []);
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, posts.length - page * rowsPerPage);

@@ -1,7 +1,9 @@
-import React, { memo, useContext } from 'react';
+import React, { memo, useContext, useState } from 'react';
 
 import { Provider } from './wish-context';
 import {
+  getWish as _getWish,
+  removeWish as _removeWish,
   onCheckProduct as _onCheckProduct,
   getAfiliateLink as _getAfiliateLink,
 } from './wish-resource';
@@ -11,6 +13,29 @@ import { Context as UserContext } from '../user';
 const WishProvider = memo(({ children }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { currentUser, getUserById } = useContext(UserContext);
+  const [currentWish, setCurrentWish] = useState({ lastPrices: [] });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getWish = async (wishId) => {
+    try {
+      const wish = await _getWish(wishId);
+
+      console.log('wish', wish);
+
+      setCurrentWish(wish);
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  const removeWish = async (wishId) => {
+    try {
+      await _removeWish(wishId);
+      await getUserById(currentUser.id);
+    } catch (err) {
+      throw err;
+    }
+  };
 
   const onCheckProduct = async (wishId) => {
     try {
@@ -27,8 +52,10 @@ const WishProvider = memo(({ children }) => {
 
   const getAfiliateLink = async (wishId) => {
     try {
+      setIsLoading(true);
       const storeUrl = await _getAfiliateLink(wishId);
 
+      setIsLoading(false);
       window.open(storeUrl, '_blank');
     } catch (err) {
       throw err;
@@ -38,6 +65,10 @@ const WishProvider = memo(({ children }) => {
   return (
     <Provider
       value={{
+        currentWish,
+        isLoading,
+        getWish,
+        removeWish,
         onCheckProduct,
         getAfiliateLink,
       }}

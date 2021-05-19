@@ -63,7 +63,7 @@ const Post = memo(() => {
 
   useEffect(() => {
     getPost(id);
-  }, [id, getPost]);
+  }, [id]);
 
   const _upVote = () => {
     upVote(id);

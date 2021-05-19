@@ -6,6 +6,8 @@ import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import { red, blue, indigo, green } from '@material-ui/core/colors';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+import DeleteConfirmation from './delete-confimation-dialog';
 import getGlobalStyles from '../../common/styles/base';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { makeStyles, styled } from '@material-ui/core/styles';
@@ -14,15 +16,15 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
-import NearMeIcon from '@material-ui/icons/NearMe';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import NearMeIcon from '@material-ui/icons/NearMe';
 import AddLinkForm from './add-form';
 import TextField from '@material-ui/core/TextField';
 
 const _red = red[700];
-const _blue = blue[600];
 const _green = green[600];
 const _indigo = indigo[400];
+const _blue = blue[500];
 
 const useStyles = makeStyles((theme) => ({
   actionsBtnWrapper: {
@@ -51,27 +53,37 @@ const NearMeIconX = styled(NearMeIcon)({
 });
 
 const WishList = memo(() => {
-  const { currentUser, addWish } = useContext(userContext);
-  const { onCheckProduct, getAfiliateLink } = useContext(wishContext);
+  const { currentUser, addWish, removeWish } = useContext(userContext);
+  const { isLoading, onCheckProduct, getAfiliateLink } =
+    useContext(wishContext);
   const history = useHistory();
 
   const [isVisibleAddForm, setIsVisibleAddForm] = useState(false);
-  const [newLink, setNewLink] = useState();
+  const [newLink, setNewLink] = useState('');
+  const [selectedLink, setSelectedLink] = useState();
+  const [isVisibleDeleteDialog, setIsVisibleDeleteDialog] = useState(false);
+
   const classes = useStyles();
   const globalStyles = getGlobalStyles();
 
-  const onRemoveLink = () => console.log('TODO onRemoveLink ...');
+  const onRemoveLink = (id) => {
+    removeWish(id);
+  };
   const onGoToStore = (id) => {
     getAfiliateLink(id);
   };
-  const onViewDetails = (id) =>
+
+  const onViewDetails = (id) => {
     history.push(`${window.location.pathname}/${id}`);
+  };
 
   const _onCheckProduct = (wish) => {
     onCheckProduct(wish._id);
   };
 
-  const options = {};
+  const options = {
+    selectableRows: 'none',
+  };
 
   const columns = [
     {
@@ -84,11 +96,11 @@ const WishList = memo(() => {
           const currentElem = currentUser.wishes[rowIndex];
           const text = !!currentElem.name
             ? `${currentElem.name.substring(0, 60)} ${
-                currentElem.name.length > 60 && '...'
+                currentElem.name.length > 60 ? '...' : ''
               }`
             : '';
 
-          return <span> {text} </span>;
+          return <p>{text}</p>;
         },
       },
     },
@@ -173,7 +185,7 @@ const WishList = memo(() => {
             />
             <DeleteButtonX
               fontSize="small"
-              onClick={onRemoveLink}
+              onClick={() => onOpenDialog(currentUser.wishes[rowIndex]._id)}
               className={clsx(globalStyles.btnAction, globalStyles.removeBtn)}
             />
           </div>
@@ -183,15 +195,40 @@ const WishList = memo(() => {
   ];
 
   const setAddFormVsibility = (value) => () => setIsVisibleAddForm(value);
-  const _addWish = () => addWish({ url: newLink });
+  const _addWish = () => {
+    if (newLink.length > 0) addWish({ url: newLink });
+
+    setNewLink('');
+  };
   const onChangeLink = (e) => setNewLink(e.target.value);
+
+  const onAgreeDeleteDialog = () => {
+    onCloseDeleteDialog();
+    onRemoveLink(selectedLink);
+  };
+
+  const onOpenDialog = (clickedLink) => {
+    setIsVisibleDeleteDialog(true);
+    setSelectedLink(clickedLink);
+  };
+  const onCloseDeleteDialog = () => setIsVisibleDeleteDialog(false);
 
   return (
     <>
+      {isLoading && (
+        <div className={globalStyles.bgMask}>
+          <CircularProgress className={globalStyles.fixedProgres} />
+        </div>
+      )}
       <AddLinkForm
         isVisible={isVisibleAddForm}
         onAdd={_addWish}
         onCancel={setAddFormVsibility(false)}
+      />
+      <DeleteConfirmation
+        isOpen={isVisibleDeleteDialog}
+        handleAgree={onAgreeDeleteDialog}
+        handleClose={onCloseDeleteDialog}
       />
       <div className={classes.actionsBtnWrapper}>
         <TextField
