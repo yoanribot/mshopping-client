@@ -20,6 +20,9 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import NearMeIcon from '@material-ui/icons/NearMe';
 import AddLinkForm from './add-form';
 import TextField from '@material-ui/core/TextField';
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import NotificationsOffIcon from '@material-ui/icons/NotificationsOff';
+import NotificationForm from './notifcation-form';
 
 const _red = red[700];
 const _green = green[600];
@@ -48,20 +51,31 @@ const CloudDoneIconX = styled(CloudDoneIcon)({
   color: _indigo,
 });
 
+const NotificationsActiveIconX = styled(NotificationsActiveIcon)({
+  color: _indigo,
+});
+
+const NotificationsOffIconX = styled(NotificationsOffIcon)({
+  color: _red,
+});
+
 const NearMeIconX = styled(NearMeIcon)({
   color: _green,
 });
 
 const WishList = memo(() => {
-  const { currentUser, addWish, removeWish } = useContext(userContext);
+  const { currentUser, addWish, updateWish, removeWish } =
+    useContext(userContext);
   const { isLoading, onCheckProduct, getAfiliateLink } =
     useContext(wishContext);
   const history = useHistory();
 
   const [isVisibleAddForm, setIsVisibleAddForm] = useState(false);
   const [newLink, setNewLink] = useState('');
-  const [selectedLink, setSelectedLink] = useState();
+  const [currentWish, setCurrentWish] = useState({});
   const [isVisibleDeleteDialog, setIsVisibleDeleteDialog] = useState(false);
+  const [isVisibleNotificationDialog, setIsVisibleNotificationDialog] =
+    useState(false);
 
   const classes = useStyles();
   const globalStyles = getGlobalStyles();
@@ -79,6 +93,26 @@ const WishList = memo(() => {
 
   const _onCheckProduct = (wish) => {
     onCheckProduct(wish._id);
+  };
+
+  const onShowNotificationForm = (wish) => {
+    setIsVisibleNotificationDialog(true);
+    setCurrentWish(wish);
+  };
+
+  const onHideNotificationForm = () => {
+    setIsVisibleNotificationDialog(false);
+  };
+
+  const onUpdateNotification = ({ notification }) => {
+    console.log('TODO onUpdateNotification ....');
+
+    console.log('isActiveNotification', notification);
+
+    updateWish({
+      ...currentWish,
+      notification,
+    });
   };
 
   const options = {
@@ -100,7 +134,7 @@ const WishList = memo(() => {
               }`
             : '';
 
-          return <p>{text}</p>;
+          return <span>{text} </span>;
         },
       },
     },
@@ -153,7 +187,7 @@ const WishList = memo(() => {
       },
     },
     {
-      name: 'asin',
+      name: 'productId',
       label: 'ASIN code',
       options: {
         filter: true,
@@ -178,6 +212,23 @@ const WishList = memo(() => {
               onClick={() => _onCheckProduct(currentUser.wishes[rowIndex])}
               className={globalStyles.btnAction}
             />
+            {currentUser.wishes[rowIndex].notification ? (
+              <NotificationsActiveIconX
+                fontSize="small"
+                onClick={() =>
+                  onShowNotificationForm(currentUser.wishes[rowIndex])
+                }
+                className={globalStyles.btnAction}
+              />
+            ) : (
+              <NotificationsOffIconX
+                fontSize="small"
+                onClick={() =>
+                  onShowNotificationForm(currentUser.wishes[rowIndex])
+                }
+                className={globalStyles.btnAction}
+              />
+            )}
             <NearMeIconX
               fontSize="small"
               onClick={() => onGoToStore(currentUser.wishes[rowIndex]._id)}
@@ -185,7 +236,7 @@ const WishList = memo(() => {
             />
             <DeleteButtonX
               fontSize="small"
-              onClick={() => onOpenDialog(currentUser.wishes[rowIndex]._id)}
+              onClick={() => onOpenDialog(currentUser.wishes[rowIndex])}
               className={clsx(globalStyles.btnAction, globalStyles.removeBtn)}
             />
           </div>
@@ -204,21 +255,31 @@ const WishList = memo(() => {
 
   const onAgreeDeleteDialog = () => {
     onCloseDeleteDialog();
-    onRemoveLink(selectedLink);
+    onRemoveLink(currentWish._id);
   };
 
   const onOpenDialog = (clickedLink) => {
     setIsVisibleDeleteDialog(true);
-    setSelectedLink(clickedLink);
+    setCurrentWish(clickedLink);
   };
   const onCloseDeleteDialog = () => setIsVisibleDeleteDialog(false);
 
+  console.log('current', currentWish);
+
   return (
-    <>
+    <section>
       {isLoading && (
         <div className={globalStyles.bgMask}>
           <CircularProgress className={globalStyles.fixedProgres} />
         </div>
+      )}
+      {isVisibleNotificationDialog && (
+        <NotificationForm
+          isVisible={isVisibleNotificationDialog}
+          hasNotification={currentWish.notification}
+          onChange={onUpdateNotification}
+          onCancel={onHideNotificationForm}
+        />
       )}
       <AddLinkForm
         isVisible={isVisibleAddForm}
@@ -256,7 +317,7 @@ const WishList = memo(() => {
         columns={columns}
         options={options}
       />
-    </>
+    </section>
   );
 });
 

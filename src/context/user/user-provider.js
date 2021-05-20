@@ -7,6 +7,7 @@ import {
   getUserById as _getUserById,
   createUser as _createUser,
   addWish as _addWish,
+  updateWish as _updateWish,
   removeWish as _removeWish,
 } from './resource';
 import { onCheckProduct } from '../wish/wish-resource';
@@ -79,6 +80,16 @@ const UserProvider = memo(({ children }) => {
     }
   };
 
+  const updateWish = async (wish) => {
+    try {
+      await _updateWish(currentUser.id, wish);
+
+      await getUserById(currentUser.id);
+    } catch (err) {
+      throw err;
+    }
+  };
+
   const removeWish = async (wishId) => {
     try {
       await _removeWish(currentUser.id, wishId);
@@ -96,6 +107,7 @@ const UserProvider = memo(({ children }) => {
         getUserById,
         createUser,
         addWish,
+        updateWish,
         removeWish,
       }}
     >

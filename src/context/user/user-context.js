@@ -8,6 +8,7 @@ export const Context = createContext({
   updateUser: () => {},
   removeUser: () => {},
   addWish: () => {},
+  updateWish: () => {},
   removeWish: () => {},
 });
 

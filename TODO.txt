@@ -1,10 +1,11 @@
 TODO
-- Add asin code as ProductId
 - Add notification section
+- Add cron job to run Check price every day
+- Fixs redirect to store for .com and .es
+- add a fallback in case the getStoreLink fail
 - Fixs graphic Y edge for adjust price format decimal(2) and afjuest steps
 - Check what to do when there are a range of prices instead of a single price
 - Add notification by msg if possible
-- Add cron job to run Check price every day
 - Homepage / banner / identity / Scrennshots to show a resume how works the app
 - Add 404 /403 page, and maintinance page
 - Add footer
