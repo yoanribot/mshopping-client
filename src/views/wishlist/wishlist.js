@@ -4,7 +4,7 @@ import { Context as userContext } from '../../context/user';
 import { Context as wishContext } from '../../context/wish';
 import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
-import { red, blue, indigo, green } from '@material-ui/core/colors';
+import { red, blue, indigo, green, yellow } from '@material-ui/core/colors';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DeleteConfirmation from './delete-confimation-dialog';
@@ -22,8 +22,12 @@ import AddLinkForm from './add-form';
 import TextField from '@material-ui/core/TextField';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import NotificationsOffIcon from '@material-ui/icons/NotificationsOff';
+import ErrorIcon from '@material-ui/icons/Error';
 import NotificationForm from './notifcation-form';
+import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
+import Tooltip from '@material-ui/core/Tooltip';
 
+const _yellow = yellow[700];
 const _red = red[700];
 const _green = green[600];
 const _indigo = indigo[400];
@@ -38,6 +42,18 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 5,
   },
 }));
+
+const PauseCircleFilledIconX = styled(PauseCircleFilledIcon)({
+  color: _yellow,
+  verticalAlign: 'middle',
+  marginRight: '10px',
+});
+
+const ErrorIconX = styled(ErrorIcon)({
+  color: _red,
+  verticalAlign: 'middle',
+  marginRight: '10px',
+});
 
 const DeleteButtonX = styled(DeleteIcon)({
   color: _red,
@@ -104,7 +120,7 @@ const WishList = memo(() => {
     setIsVisibleNotificationDialog(false);
   };
 
-  const onUpdateNotification = ({ notification }) => {
+  const onUpdateNotification = ({ notification, maxPrice }) => {
     console.log('TODO onUpdateNotification ....');
 
     console.log('isActiveNotification', notification);
@@ -112,11 +128,21 @@ const WishList = memo(() => {
     updateWish({
       ...currentWish,
       notification,
+      maxPrice,
     });
   };
 
   const options = {
     selectableRows: 'none',
+    setRowProps: (row, dataIndex, rowIndex) => {
+      return {
+        className: clsx({
+          [globalStyles.highlightRow]: currentUser.wishes[rowIndex].hasProblem,
+          // [globalStyles.warningLight]:
+          //   currentUser.wishes[rowIndex].isOutOfStock,
+        }),
+      };
+    },
   };
 
   const columns = [
@@ -134,7 +160,18 @@ const WishList = memo(() => {
               }`
             : '';
 
-          return <span>{text} </span>;
+          return (
+            <Tooltip
+              title="There are some problems with the availability of the product"
+              arrow
+            >
+              <span>
+                {currentElem.hasProblem && <ErrorIconX />}
+                {/* {currentElem.isOutOfStock && <PauseCircleFilledIconX />} */}
+                {text}
+              </span>
+            </Tooltip>
+          );
         },
       },
     },
@@ -277,6 +314,9 @@ const WishList = memo(() => {
         <NotificationForm
           isVisible={isVisibleNotificationDialog}
           hasNotification={currentWish.notification}
+          maxPrice={currentWish.maxPrice}
+          actualPrice={currentWish.currentPrice}
+          currency={currentWish.currency}
           onChange={onUpdateNotification}
           onCancel={onHideNotificationForm}
         />
