@@ -1,15 +1,15 @@
 TODO
-- Fixs graphic Y edge for adjust price format decimal(2) and afjuest steps
+- fixs translation toggle
+- Add a loader while adding a product or checking
 - Check what to do when there are a range of prices instead of a single price
 - Add notification by msg if possible
-- Hide unnecesary global whishes table actions
 - Homepage / banner / identity / Scrennshots to show a resume how works the app
 - Add 404 /403 page, and maintinance page
-- Add footer
 - Check how to get the availability of a product
 - format correct money
 - Fixs default Selected navigation
 - Add a preatty email template in sendinblue SMTP email provider and learn about dashboard and campains
+- Save date of the check price,
 - Add translations
 - Add analytics
 - Check case were there are multiple users with the same product

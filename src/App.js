@@ -16,6 +16,7 @@ import './App.css';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Header from './components/header';
+import Footer from './components/footer';
 import NavigationBar from './components/navigation-bar';
 import { roles } from './app-constants';
 import initHttpInterceptor from './app-http-interceptor';
@@ -23,6 +24,7 @@ import initHttpInterceptor from './app-http-interceptor';
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: 60,
+    minHeight: 'calc(100vh - 193px)',
   },
 }));
 
@@ -35,14 +37,6 @@ function App() {
       label: translate('Home'),
       url: '/',
     },
-    // {
-    //   label: translate('Test'),
-    //   url: '/test',
-    // },
-    // {
-    //   label: translate('Posts'),
-    //   url: '/posts',
-    // },
     {
       label: translate('Wishes'),
       url: '/wishlist',
@@ -85,6 +79,7 @@ function App() {
           <Redirect to="/" />
         </Switch>
       </Container>
+      <Footer />
     </div>
   );
 }

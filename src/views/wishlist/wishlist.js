@@ -134,6 +134,11 @@ const WishList = memo(() => {
 
   const options = {
     selectableRows: 'none',
+    download: false,
+    search: true,
+    print: false,
+    filter: false,
+    viewColumns: false,
     setRowProps: (row, dataIndex, rowIndex) => {
       return {
         className: clsx({
@@ -153,7 +158,7 @@ const WishList = memo(() => {
         filter: true,
         sort: true,
         customBodyRenderLite: (dataIndex, rowIndex) => {
-          const currentElem = currentUser.wishes[rowIndex];
+          const currentElem = currentUser.wishes[dataIndex];
           const text = !!currentElem.name
             ? `${currentElem.name.substring(0, 60)} ${
                 currentElem.name.length > 60 ? '...' : ''
@@ -182,7 +187,7 @@ const WishList = memo(() => {
         filter: true,
         sort: false,
         customBodyRenderLite: (dataIndex, rowIndex) => {
-          const currentElem = currentUser.wishes[rowIndex];
+          const currentElem = currentUser.wishes[dataIndex];
 
           return (
             <div>
@@ -211,7 +216,7 @@ const WishList = memo(() => {
         sort: false,
         customBodyRenderLite: (dataIndex, rowIndex) => {
           const { store, domain } = getStoreAndDomain(
-            currentUser.wishes[rowIndex].url,
+            currentUser.wishes[dataIndex].url,
           );
 
           return (
@@ -241,19 +246,19 @@ const WishList = memo(() => {
           <div className={globalStyles.flex}>
             <VisibilityIconX
               fontSize="small"
-              onClick={() => onViewDetails(currentUser.wishes[rowIndex]._id)}
+              onClick={() => onViewDetails(currentUser.wishes[dataIndex]._id)}
               className={globalStyles.btnAction}
             />
             <CloudDoneIconX
               fontSize="small"
-              onClick={() => _onCheckProduct(currentUser.wishes[rowIndex])}
+              onClick={() => _onCheckProduct(currentUser.wishes[dataIndex])}
               className={globalStyles.btnAction}
             />
-            {currentUser.wishes[rowIndex].notification ? (
+            {currentUser.wishes[dataIndex].notification ? (
               <NotificationsActiveIconX
                 fontSize="small"
                 onClick={() =>
-                  onShowNotificationForm(currentUser.wishes[rowIndex])
+                  onShowNotificationForm(currentUser.wishes[dataIndex])
                 }
                 className={globalStyles.btnAction}
               />
@@ -261,19 +266,19 @@ const WishList = memo(() => {
               <NotificationsOffIconX
                 fontSize="small"
                 onClick={() =>
-                  onShowNotificationForm(currentUser.wishes[rowIndex])
+                  onShowNotificationForm(currentUser.wishes[dataIndex])
                 }
                 className={globalStyles.btnAction}
               />
             )}
             <NearMeIconX
               fontSize="small"
-              onClick={() => onGoToStore(currentUser.wishes[rowIndex]._id)}
+              onClick={() => onGoToStore(currentUser.wishes[dataIndex]._id)}
               className={globalStyles.btnAction}
             />
             <DeleteButtonX
               fontSize="small"
-              onClick={() => onOpenDialog(currentUser.wishes[rowIndex])}
+              onClick={() => onOpenDialog(currentUser.wishes[dataIndex])}
               className={clsx(globalStyles.btnAction, globalStyles.removeBtn)}
             />
           </div>
