@@ -1,5 +1,5 @@
 import React from 'react';
-import accessDenied from 'assets/img/access-denied.jpg';
+import maintenance from 'assets/img/maintenance.jpg';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -13,18 +13,18 @@ const useStyles = makeStyles((theme) => ({
   },
   bg: {
     height: 400,
-    background: `url(${accessDenied}) center / contain no-repeat`,
+    background: `url(${maintenance}) center / contain no-repeat`,
   },
 }));
 
-const Page403 = () => {
+const Page503 = () => {
   const classes = useStyles();
   return (
     <div>
-      <h2 className={classes.defaultPagesTitle}> 403 Access Denied </h2>
+      <h2 className={classes.defaultPagesTitle}> 403 Maintenance </h2>
       <div className={classes.bg}></div>
     </div>
   );
 };
 
-export default Page403;
+export default Page503;

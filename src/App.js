@@ -23,6 +23,7 @@ import initHttpInterceptor from './app-http-interceptor';
 
 const useStyles = makeStyles((theme) => ({
   container: {
+    position: 'relative',
     padding: 60,
     minHeight: 'calc(100vh - 193px)',
   },

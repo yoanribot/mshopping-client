@@ -59,6 +59,11 @@ export default function Header() {
 
   const _changeLanguage = (e) => changeLanguage(e.target.value);
 
+  console.log(
+    "localStorage.getItem('language')",
+    localStorage.getItem('language'),
+  );
+
   return (
     <div className={classes.root}>
       <AppBar position="static">

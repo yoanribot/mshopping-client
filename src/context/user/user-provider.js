@@ -14,6 +14,7 @@ import { onCheckProduct } from '../wish/wish-resource';
 import UserModel from '../models/user';
 
 const UserProvider = memo(({ children }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(
     new UserModel({
       name: '',
@@ -68,13 +69,16 @@ const UserProvider = memo(({ children }) => {
   };
 
   const addWish = async (wish) => {
+    console.log('addWish ........');
     try {
       const { wish: _wish } = await _addWish(currentUser.id, wish);
 
+      setIsLoading(true);
       console.log('_wish', _wish);
 
       await onCheckProduct(_wish._id);
       await getUserById(currentUser.id);
+      setIsLoading(false);
     } catch (err) {
       throw err;
     }
@@ -103,6 +107,7 @@ const UserProvider = memo(({ children }) => {
     <Provider
       value={{
         currentUser,
+        isLoading,
         getUserByAuth0Id,
         getUserById,
         createUser,

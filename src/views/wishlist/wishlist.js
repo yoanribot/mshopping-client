@@ -80,8 +80,13 @@ const NearMeIconX = styled(NearMeIcon)({
 });
 
 const WishList = memo(() => {
-  const { currentUser, addWish, updateWish, removeWish } =
-    useContext(userContext);
+  const {
+    currentUser,
+    isLoading: isLoadingUserData,
+    addWish,
+    updateWish,
+    removeWish,
+  } = useContext(userContext);
   const { isLoading, onCheckProduct, getAfiliateLink } =
     useContext(wishContext);
   const history = useHistory();
@@ -188,17 +193,24 @@ const WishList = memo(() => {
         sort: false,
         customBodyRenderLite: (dataIndex, rowIndex) => {
           const currentElem = currentUser.wishes[dataIndex];
+          const lastPrice =
+            currentElem.lastPrices && currentElem.lastPrices.length > 1
+              ? currentElem.lastPrices[currentElem.lastPrices.length - 2]
+              : 0.0;
+          const currentPrice = currentElem.currentPrice;
+
+          // parseFloat(amount).toFixed(2)
 
           return (
             <div>
               {currentElem.lastPrices && currentElem.lastPrices.length > 1 && (
-                <span>{`${
-                  currentElem.lastPrices[currentElem.lastPrices.length - 2]
-                } ${currentElem.currency} >>> `}</span>
+                <span>{`${parseFloat(lastPrice).toFixed(2)} ${
+                  currentElem.currency
+                } >>> `}</span>
               )}
               <span>
                 <strong>
-                  {`${currentElem.currentPrice || ''} ${
+                  {`${parseFloat(currentPrice).toFixed(2) || ''} ${
                     currentElem.currency || ''
                   }`}
                 </strong>
@@ -221,7 +233,12 @@ const WishList = memo(() => {
 
           return (
             <>
-              {!!store && <FontAwesomeIcon icon={['fab', store]} />}
+              {!!store && (
+                <FontAwesomeIcon
+                  icon={['fab', store]}
+                  style={{ fontSize: 25 }}
+                />
+              )}
               <span>({domain})</span>
             </>
           );
@@ -278,7 +295,7 @@ const WishList = memo(() => {
             />
             <DeleteButtonX
               fontSize="small"
-              onClick={() => onOpenDialog(currentUser.wishes[dataIndex])}
+              onClick={() => onRemoveWish(dataIndex)}
               className={clsx(globalStyles.btnAction, globalStyles.removeBtn)}
             />
           </div>
@@ -286,6 +303,14 @@ const WishList = memo(() => {
       },
     },
   ];
+
+  const onRemoveWish = (dataIndex) => {
+    if (localStorage.getItem('showConfirmDeleteWish') !== 'true') {
+      onOpenDialog(currentUser.wishes[dataIndex]);
+    } else {
+      onRemoveLink(currentWish._id);
+    }
+  };
 
   const setAddFormVsibility = (value) => () => setIsVisibleAddForm(value);
   const _addWish = () => {
@@ -300,17 +325,17 @@ const WishList = memo(() => {
     onRemoveLink(currentWish._id);
   };
 
-  const onOpenDialog = (clickedLink) => {
+  const onOpenDialog = (selectedWish) => {
     setIsVisibleDeleteDialog(true);
-    setCurrentWish(clickedLink);
+    setCurrentWish(selectedWish);
   };
   const onCloseDeleteDialog = () => setIsVisibleDeleteDialog(false);
 
-  console.log('current', currentWish);
+  console.log('res', localStorage.getItem('showConfirmDeleteWish'));
 
   return (
     <section>
-      {isLoading && (
+      {(isLoading || isLoadingUserData) && (
         <div className={globalStyles.bgMask}>
           <CircularProgress className={globalStyles.fixedProgres} />
         </div>
@@ -331,11 +356,17 @@ const WishList = memo(() => {
         onAdd={_addWish}
         onCancel={setAddFormVsibility(false)}
       />
-      <DeleteConfirmation
-        isOpen={isVisibleDeleteDialog}
-        handleAgree={onAgreeDeleteDialog}
-        handleClose={onCloseDeleteDialog}
-      />
+      {isVisibleDeleteDialog &&
+        localStorage.getItem('showConfirmDeleteWish') !== 'true' && (
+          <DeleteConfirmation
+            isOpen={isVisibleDeleteDialog}
+            showConfirmDeleteWish={localStorage.getItem(
+              'showConfirmDeleteWish',
+            )}
+            handleAgree={onAgreeDeleteDialog}
+            handleClose={onCloseDeleteDialog}
+          />
+        )}
       <div className={classes.actionsBtnWrapper}>
         <TextField
           name="link"

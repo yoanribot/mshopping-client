@@ -1,13 +1,10 @@
 TODO
-- fixs translation toggle
-- Add a loader while adding a product or checking
+- Dont show again for remove dialog
+- Manage section for admins
 - Check what to do when there are a range of prices instead of a single price
 - Add notification by msg if possible
 - Homepage / banner / identity / Scrennshots to show a resume how works the app
-- Add 404 /403 page, and maintinance page
 - Check how to get the availability of a product
-- format correct money
-- Fixs default Selected navigation
 - Add a preatty email template in sendinblue SMTP email provider and learn about dashboard and campains
 - Save date of the check price,
 - Add translations

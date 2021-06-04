@@ -61,9 +61,13 @@ export const translate = (id, values) => {
   return translation;
 };
 
-export const changeLanguage = (language) =>
-  i18next.changeLanguage(language, (err, t) => {
-    if (err) return console.log('something went wrong loading', err);
+export const changeLanguage = async (language) =>
+  await i18next
+    .changeLanguage(language, (err, t) => {
+      if (err) return console.log('something went wrong loading', err);
 
-    localStorage.setItem('language', language);
-  });
+      localStorage.setItem('language', language);
+    })
+    .then(() => {
+      window.location.href = `${window.location.href}`;
+    });

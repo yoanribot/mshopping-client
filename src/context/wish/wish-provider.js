@@ -39,7 +39,9 @@ const WishProvider = memo(({ children }) => {
 
   const onCheckProduct = async (wishId) => {
     try {
+      setIsLoading(true);
       const data = await _onCheckProduct(wishId);
+      setIsLoading(false);
 
       enqueueSnackbar(
         `Product checked succesfully. Now available for: ${data.price} ${data.currency}`,
