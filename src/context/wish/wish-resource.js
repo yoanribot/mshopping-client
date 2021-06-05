@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+export const getWishes = (wishId) =>
+  axios.get(`/wishes`).then((respose) => respose.data);
+
 export const getWish = (wishId) =>
   axios.get(`/wishes/${wishId}`).then((respose) => respose.data);
 

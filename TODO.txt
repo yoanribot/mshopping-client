@@ -1,5 +1,5 @@
 TODO
-- Manage section for admins
+- Add Manage / Wishes
 - Check what to do when there are a range of prices instead of a single price
 - Add notification by msg if possible
 - Homepage / banner / identity / Scrennshots to show a resume how works the app

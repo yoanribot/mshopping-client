@@ -2,19 +2,28 @@ import React, { memo, useContext, useState } from 'react';
 
 import { Provider } from './wish-context';
 import {
+  getWishes as _getWishes,
   getWish as _getWish,
   removeWish as _removeWish,
   onCheckProduct as _onCheckProduct,
   getAfiliateLink as _getAfiliateLink,
 } from './wish-resource';
 import { useSnackbar } from 'notistack';
-import { Context as UserContext } from '../user';
 
 const WishProvider = memo(({ children }) => {
   const { enqueueSnackbar } = useSnackbar();
-  const { currentUser, getUserById } = useContext(UserContext);
+  const [wishes, setWishes] = useState([]);
   const [currentWish, setCurrentWish] = useState({ lastPrices: [] });
   const [isLoading, setIsLoading] = useState(false);
+
+  const getWishes = async () => {
+    try {
+      const wishes = await _getWishes();
+      setWishes(wishes);
+    } catch (err) {
+      throw err;
+    }
+  };
 
   const getWish = async (wishId) => {
     try {
@@ -29,7 +38,7 @@ const WishProvider = memo(({ children }) => {
   const removeWish = async (wishId) => {
     try {
       await _removeWish(wishId);
-      await getUserById(currentUser.id);
+      await getWishes();
     } catch (err) {
       throw err;
     }
@@ -44,7 +53,7 @@ const WishProvider = memo(({ children }) => {
       enqueueSnackbar(
         `Product checked succesfully. Now available for: ${data.price} ${data.currency}`,
       );
-      getUserById(currentUser.id);
+      getWishes();
     } catch (err) {
       throw err;
     }
@@ -65,8 +74,10 @@ const WishProvider = memo(({ children }) => {
   return (
     <Provider
       value={{
+        wishes,
         currentWish,
         isLoading,
+        getWishes,
         getWish,
         removeWish,
         onCheckProduct,
