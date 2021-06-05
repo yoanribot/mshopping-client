@@ -126,10 +126,6 @@ const WishList = memo(() => {
   };
 
   const onUpdateNotification = ({ notification, maxPrice }) => {
-    console.log('TODO onUpdateNotification ....');
-
-    console.log('isActiveNotification', notification);
-
     updateWish({
       ...currentWish,
       notification,
@@ -330,8 +326,6 @@ const WishList = memo(() => {
     setCurrentWish(selectedWish);
   };
   const onCloseDeleteDialog = () => setIsVisibleDeleteDialog(false);
-
-  console.log('res', localStorage.getItem('showConfirmDeleteWish'));
 
   return (
     <section>

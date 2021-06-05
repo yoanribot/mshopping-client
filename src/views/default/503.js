@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 5,
   },
   bg: {
-    height: 400,
+    height: 'calc(100vh - 223px)',
     background: `url(${maintenance}) center / contain no-repeat`,
   },
 }));

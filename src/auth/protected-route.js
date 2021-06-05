@@ -7,8 +7,6 @@ import Page403 from '../views/default/403';
 const ProtectedRoute = ({ component, roles, ...args }) => {
   const { user, isAuthenticated } = useAuth0();
 
-  console.log('user', user);
-
   const userRole = !!user && user[process.env.REACT_APP_ROLE_PATH];
 
   return roles.length > 0 ? (

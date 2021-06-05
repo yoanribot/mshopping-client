@@ -20,8 +20,6 @@ const WishProvider = memo(({ children }) => {
     try {
       const wish = await _getWish(wishId);
 
-      console.log('wish', wish);
-
       setCurrentWish(wish);
     } catch (err) {
       throw err;

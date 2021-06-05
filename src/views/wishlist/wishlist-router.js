@@ -4,7 +4,7 @@ import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
 import WishList from './wishlist';
 import WishListDetails from './wishlist-details';
 
-const Posts = memo(() => {
+const Wishes = memo(() => {
   let match = useRouteMatch();
 
   return (
@@ -20,4 +20,4 @@ const Posts = memo(() => {
   );
 });
 
-export default Posts;
+export default Wishes;

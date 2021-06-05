@@ -30,9 +30,6 @@ const ContactUs = memo(() => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
-
-  console.log(globalStyles);
-
   const currentFormValues = getValues();
 
   useEffect(() => {

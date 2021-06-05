@@ -69,12 +69,10 @@ const UserProvider = memo(({ children }) => {
   };
 
   const addWish = async (wish) => {
-    console.log('addWish ........');
     try {
       const { wish: _wish } = await _addWish(currentUser.id, wish);
 
       setIsLoading(true);
-      console.log('_wish', _wish);
 
       await onCheckProduct(_wish._id);
       await getUserById(currentUser.id);

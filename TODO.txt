@@ -1,5 +1,4 @@
 TODO
-- Dont show again for remove dialog
 - Manage section for admins
 - Check what to do when there are a range of prices instead of a single price
 - Add notification by msg if possible

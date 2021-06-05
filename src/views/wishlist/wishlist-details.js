@@ -17,8 +17,6 @@ const WishListDetails = memo(() => {
     getWish(wishId);
   }, []);
 
-  console.log('currentWish.lastPrices', currentWish.lastPrices);
-
   useEffect(() => {
     const { min: _min, max: _max } =
       currentWish.lastPrices.length > 0
@@ -37,9 +35,6 @@ const WishListDetails = memo(() => {
             { min: 100000, max: 0 },
           )
         : { min: 0, max: 0 };
-
-    console.log('_min', _min);
-    console.log('_max', _max);
 
     setMinMax({ min: _min, max: _max });
     setData({

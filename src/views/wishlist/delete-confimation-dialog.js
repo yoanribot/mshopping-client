@@ -14,10 +14,7 @@ const DeleteConfirmation = memo(
       showConfirmDeleteWish === 'true',
     );
 
-    console.log('showAgain', showAgain);
-
     const onChangeShowAgain = (event) => {
-      console.log('event.target', event.target.checked);
       setShowAgain(event.target.checked);
     };
 

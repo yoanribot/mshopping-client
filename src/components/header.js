@@ -1,7 +1,9 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useHistory } from 'react-router-dom';
 import { changeLanguage } from '../services/i18n';
 
+import { roles } from '../app-constants';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -44,7 +46,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header() {
   const classes = useStyles();
-  const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+  const history = useHistory();
+  const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
+  const userRole = !!user && user[process.env.REACT_APP_ROLE_PATH];
 
   const login = () => loginWithRedirect();
   const singup = async () => {
@@ -59,11 +63,6 @@ export default function Header() {
 
   const _changeLanguage = (e) => changeLanguage(e.target.value);
 
-  console.log(
-    "localStorage.getItem('language')",
-    localStorage.getItem('language'),
-  );
-
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -73,10 +72,16 @@ export default function Header() {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
+            onClick={() => history.push('/')}
           >
             <SupervisorAccountIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <Typography
+            variant="h6"
+            className={classes.title}
+            style={{ cursor: 'pointer' }}
+            onClick={() => history.push('/')}
+          >
             iTeam
           </Typography>
           <p>
@@ -109,7 +114,10 @@ export default function Header() {
               Login
             </Button>
           ) : (
-            <UserMenu onLogout={_logout} />
+            <UserMenu
+              onLogout={_logout}
+              isAdmin={isAuthenticated && userRole === roles.ADMIN}
+            />
           )}
         </Toolbar>
       </AppBar>
