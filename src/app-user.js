@@ -42,8 +42,6 @@ function AppUser() {
     },
   ];
 
-  console.log('match', match);
-
   return (
     <div id="app-user" className={classes.body}>
       <NavigationBar tabs={appTabs} />

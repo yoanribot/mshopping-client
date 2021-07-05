@@ -1,13 +1,13 @@
-import React, { memo, useState, useContext, useEffect } from 'react';
+import React, { memo, useContext, useEffect } from 'react';
 import { getStoreAndDomain } from 'services/helper';
 import { Context as wishContext } from 'context/wish';
 import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
-import { red, blue, indigo, green } from '@material-ui/core/colors';
 
+import { red, blue, indigo, green } from '@material-ui/core/colors';
 import getGlobalStyles from 'common/styles/base';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { makeStyles, styled } from '@material-ui/core/styles';
+import { styled } from '@material-ui/core/styles';
 import MUIDataTable from 'mui-datatables';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
@@ -20,16 +20,6 @@ const _red = red[700];
 const _green = green[600];
 const _indigo = indigo[400];
 const _blue = blue[500];
-
-const useStyles = makeStyles((theme) => ({
-  actionsBtnWrapper: {
-    display: 'flex',
-    padding: '5px 0',
-  },
-  addBtn: {
-    marginLeft: 5,
-  },
-}));
 
 const ErrorIconX = styled(ErrorIcon)({
   color: _red,
@@ -54,14 +44,11 @@ const NearMeIconX = styled(NearMeIcon)({
 });
 
 const WishList = memo(() => {
-  const classes = useStyles();
   const globalStyles = getGlobalStyles();
 
   const { wishes, getWishes, removeWish, onCheckProduct, getAfiliateLink } =
     useContext(wishContext);
   const history = useHistory();
-
-  const [currentWish, setCurrentWish] = useState({});
 
   useEffect(() => {
     getWishes();

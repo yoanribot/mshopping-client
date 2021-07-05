@@ -13,7 +13,10 @@ import { useSnackbar } from 'notistack';
 const WishProvider = memo(({ children }) => {
   const { enqueueSnackbar } = useSnackbar();
   const [wishes, setWishes] = useState([]);
-  const [currentWish, setCurrentWish] = useState({ lastPrices: [] });
+  const [currentWish, setCurrentWish] = useState({
+    lastPrices: [],
+    outOfStock: false,
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const getWishes = async () => {

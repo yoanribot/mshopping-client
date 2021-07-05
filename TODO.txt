@@ -1,5 +1,9 @@
 TODO
 - Add Manage / Wishes
+  * Remove wish
+  * Remove wish for user
+  * Remove some prices
+  * Add icon to know if there were a problem to scrape
 - Check what to do when there are a range of prices instead of a single price
 - Add notification by msg if possible
 - Homepage / banner / identity / Scrennshots to show a resume how works the app

@@ -12,7 +12,18 @@ const NavigationBar = memo(({ tabs }) => {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    setValue(tabs.findIndex((tab) => tab.url === history.location.pathname));
+    console.log('history.location.pathname', history.location.pathname);
+    console.log('tabs', tabs);
+
+    let max = 0;
+    let _index = -1;
+    tabs.forEach((tab, index) => {
+      if (history.location.pathname.includes(tab.url) && tab.url.length > max) {
+        max = tab.url.length;
+        _index = index;
+      }
+    });
+    setValue(_index);
   }, [tabs]);
 
   const _onChange = (event, tabIndex) => {

@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { makeStyles } from '@material-ui/core/styles';
 import ProtectedRoute from './auth/protected-route';
-import Admin from './app-admin';
+import Manage from './views/manage';
 import User from './app-user';
 
 import './App.css';
@@ -42,7 +42,7 @@ function App() {
         <ProtectedRoute
           roles={[roles.ADMIN]}
           path="/manage"
-          component={Admin}
+          component={Manage}
         />
         <Route path="/" component={User} />
         <Redirect to="/" />

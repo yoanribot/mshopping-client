@@ -1,1 +1,1 @@
-export { default } from './manage';
+export { default } from './mange-router';

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import Manage from './views/manage';
-import Wishes from './views/manage/wishes';
-import { translate } from './services/i18n';
+import { translate } from '../../services/i18n';
+import Overview from './overview';
+import Wishes from './wishes';
+import WishDetail from './wishes/wish-detail';
 
 import Container from '@material-ui/core/Container';
-import NavigationBar from './components/navigation-bar';
+import NavigationBar from '../../components/navigation-bar';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function App() {
+function Manage() {
   const classes = useStyles();
   let match = useRouteMatch();
   const appTabs = [
@@ -26,7 +27,7 @@ function App() {
     },
     {
       label: translate('Wishes'),
-      url: '/manage/wishes',
+      url: '/manage/wish',
     },
   ];
 
@@ -36,8 +37,9 @@ function App() {
 
       <Container className={classes.container}>
         <Switch>
-          <Route path={`${match.path}/`} exact={true} component={Manage} />
-          <Route path={`${match.path}/wishes`} component={Wishes} />
+          <Route path={`${match.path}`} exact component={Overview} />
+          <Route path={`${match.path}/wish`} exact component={Wishes} />
+          <Route path={`${match.path}/wish/:wishId`} component={WishDetail} />
           <Redirect to="/" />
         </Switch>
       </Container>
@@ -45,4 +47,4 @@ function App() {
   );
 }
 
-export default App;
+export default Manage;
