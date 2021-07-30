@@ -1,5 +1,5 @@
 import React from 'react';
-import accessDenied from 'assets/img/access-denied.jpg';
+import accessDenied from '../../assets/img/access-denied.jpg';
 
 import { makeStyles } from '@material-ui/core/styles';
 

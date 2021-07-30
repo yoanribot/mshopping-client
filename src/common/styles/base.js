@@ -9,6 +9,16 @@ const useStyles = makeStyles((theme) => ({
   flex: {
     display: 'flex',
   },
+  subtitle: {
+    marginBottom: 0,
+  },
+  flexListItem: {
+    marginRight: 20,
+    marginTop: 10,
+  },
+  flexListItemHighlight: {
+    fontWeight: 'bold',
+  },
   grow: {
     flexGrow: 1,
   },

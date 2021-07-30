@@ -1,4 +1,5 @@
-import { memo, useContext, useEffect } from 'react';
+import React from 'react';
+import { useContext, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Context as UserContext } from '../../context/user';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -19,28 +20,32 @@ type FormValues = {
   text: string;
 };
 
-const ContactUs = memo(() => {
+const ContactUs = () => {
   const globalStyles = useGlobalStyles();
   const { currentUser } = useContext(UserContext);
   const { user } = useAuth0();
   const {
-    reset,
     control,
-    getValues,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
-  const currentFormValues = getValues();
 
   useEffect(() => {
-    reset({
-      ...getValues(),
-      name: `${currentUser.name} ${currentUser.lastname}`,
-      email: user.email,
-      title: 'Need some help',
-      text: 'I dont know how to send an email with a proper template...Can you help me? thank you. have a nice day',
+    setValue('name', `${currentUser.name} ${currentUser.lastname}`, {
+      shouldValidate: true,
     });
-  }, [currentUser, user, reset, getValues]);
+    setValue('title', 'Need some help', { shouldValidate: true });
+    setValue(
+      'text',
+      'I dont know how to send an email with a proper template...Can you help me? thank you. have a nice day',
+      { shouldValidate: true },
+    );
+  }, [currentUser, setValue]);
+
+  useEffect(() => {
+    setValue('email', user.email, { shouldValidate: true });
+  }, [user, setValue]);
 
   const onSubmit = (data) => {
     sendEmail(data);
@@ -52,11 +57,11 @@ const ContactUs = memo(() => {
         Support Contact form:
       </Typography>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form data-testid="form" onSubmit={handleSubmit(onSubmit)}>
         <Controller
           name={'name'}
           control={control}
-          defaultValue={currentFormValues.name || ''}
+          defaultValue=""
           rules={{
             required: 'This field is required',
             maxLength: { value: 20, message: 'You exceed the max length' },
@@ -64,6 +69,7 @@ const ContactUs = memo(() => {
           render={({ field }) => (
             <div className={globalStyles.inputWrapper}>
               <TextField
+                id="contact-form-name"
                 fullWidth
                 error={!!errors.name}
                 label={'Name'}
@@ -78,11 +84,11 @@ const ContactUs = memo(() => {
         <Controller
           name={'title'}
           control={control}
-          defaultValue={currentFormValues.title || ''}
           rules={{ required: 'This field is required' }}
           render={({ field }) => (
             <div className={globalStyles.inputWrapper}>
               <TextField
+                id="contact-form-title"
                 fullWidth
                 error={!!errors.title}
                 label={'Title'}
@@ -98,11 +104,11 @@ const ContactUs = memo(() => {
         <Controller
           name={'email'}
           control={control}
-          defaultValue={currentFormValues.email || ''}
           rules={{ required: 'A contact email is required' }}
           render={({ field }) => (
             <div className={globalStyles.inputWrapper}>
               <TextField
+                id="contact-form-email"
                 fullWidth
                 error={!!errors.email}
                 label={'Contact me at (Email)'}
@@ -118,7 +124,6 @@ const ContactUs = memo(() => {
         <Controller
           name={'text'}
           control={control}
-          defaultValue={currentFormValues.text || ''}
           rules={{ required: 'This field is required' }}
           render={({ field }) => (
             <div className={globalStyles.inputWrapper}>
@@ -145,6 +150,6 @@ const ContactUs = memo(() => {
       </form>
     </Card>
   );
-});
+};
 
 export default ContactUs;

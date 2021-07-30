@@ -24,7 +24,7 @@ const NavigationBar = memo(({ tabs }) => {
       }
     });
     setValue(_index);
-  }, [tabs]);
+  }, [tabs, history.location.pathname]);
 
   const _onChange = (event, tabIndex) => {
     setValue(tabIndex);

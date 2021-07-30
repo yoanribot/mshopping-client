@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import ProtectedRoute from './auth/protected-route';
 import Profile from './views/profile';
@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 
 function AppUser() {
   const classes = useStyles();
-  let match = useRouteMatch();
 
   const appTabs = [
     {
